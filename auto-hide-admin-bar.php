@@ -5,6 +5,7 @@ Description: Automatically hides the Toolbar. Will show the Toolbar when hoverin
 Author: Marcel Bootsman
 Version: 1.6.3
 Author URI: https://marcelbootsman.nl
+Github Plugin URI: https://github.com/mbootsman/auto-hide-admin-bar
 Text Domain: auto-hide-admin-bar
 Domain Path: /languages/
 
