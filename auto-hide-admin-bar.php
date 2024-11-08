@@ -3,7 +3,7 @@
 Plugin Name: Auto Hide Admin Bar
 Description: Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 1.6.4
+Version: 1.6.5
 Author URI: https://marcelbootsman.nl
 Github Plugin URI: https://github.com/mbootsman/auto-hide-admin-bar
 Text Domain: auto-hide-admin-bar
@@ -300,4 +300,20 @@ add_action('plugins_loaded', 'auto_hide_admin_bar_load_textdomain');
 function auto_hide_admin_bar_load_textdomain() {
 	load_plugin_textdomain('auto-hide-admin-bar', false, basename(dirname(__FILE__)) . '/languages/');
 }
+/**
+ * Load language file
+ * 
+ * @param 
+ */
+
+add_filter( 'load_textdomain_mofile', 'auto_hide_admin_bar_load_language_files', 10, 2 );
+function auto_hide_admin_bar_load_language_files( $mofile, $domain ) {
+	if ( 'auto-hide-admin-bar' === $domain && false !== strpos( $mofile, WP_LANG_DIR . '/plugins/' ) ) {
+		$locale = apply_filters( 'plugin_locale', determine_locale(), $domain );
+		$mofile = WP_PLUGIN_DIR . '/' . dirname( plugin_basename( __FILE__ ) ) . '/languages/' . $domain . '-' . $locale . '.mo';
+		echo $mofile;
+	}
+	return $mofile;
+}
+
 ?>
