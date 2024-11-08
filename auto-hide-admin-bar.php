@@ -3,7 +3,7 @@
 Plugin Name: Auto Hide Admin Bar
 Description: Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 1.6.3
+Version: 1.6.4
 Author URI: https://marcelbootsman.nl
 Github Plugin URI: https://github.com/mbootsman/auto-hide-admin-bar
 Text Domain: auto-hide-admin-bar
