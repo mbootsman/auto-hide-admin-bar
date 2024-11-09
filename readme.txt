@@ -15,21 +15,21 @@ If you have any comments or questions, please use the [support forum](http://wor
 
 == Installation ==
 
-1. Upload `auto-hide-admin-bar` directory to the `/wp-content/plugins/` directory
+1. Upload `auto-hide-admin-bar` directory to the `/wp-content/plugins/` directory or
+   upload the auto-hide-admin-bar.zip as a new plugin.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. We're all done, now you have an auto hiding Toolbar.
 
 == Frequently Asked Questions ==
 
 = Can this plugin be translated in my own language? =
-Sure, just go [here](https://translate.wordpress.org/projects/wp-plugins/auto-hide-admin-bar) and translate this plugin in your own language.
-
-== Screenshots ==
-How do we make screenshots of things that are hidden? :)
+Yes, please use the .pot file, and submit your own language file through a PR.
 
 == Changelog ==
 = 1.6.5 =
 * Added language files (Dutch, Chinese (Taiwan))
+* Added logic for language files without w.org
+* Added pot file
 
 = 1.6.4 =
 * Added GitHub URI to support [git-updater](https://github.com/afragen/git-updater)
