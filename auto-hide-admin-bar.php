@@ -312,7 +312,6 @@ function auto_hide_admin_bar_load_language_files($mofile, $domain) {
 	if ('auto-hide-admin-bar' === $domain && false !== strpos($mofile, WP_LANG_DIR . '/plugins/')) {
 		$locale = apply_filters('plugin_locale', determine_locale(), $domain);
 		$mofile = WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)) . '/languages/' . $domain . '-' . $locale . '.mo';
-		echo $mofile;
 	}
 	return $mofile;
 }
