@@ -6,6 +6,7 @@ Author: Marcel Bootsman
 Version: 1.6.5
 Author URI: https://marcelbootsman.nl
 Github Plugin URI: https://github.com/mbootsman/auto-hide-admin-bar
+Primary Branch: main
 Text Domain: auto-hide-admin-bar
 Domain Path: /languages/
 
@@ -306,14 +307,28 @@ function auto_hide_admin_bar_load_textdomain() {
  * @param 
  */
 
-add_filter( 'load_textdomain_mofile', 'auto_hide_admin_bar_load_language_files', 10, 2 );
-function auto_hide_admin_bar_load_language_files( $mofile, $domain ) {
-	if ( 'auto-hide-admin-bar' === $domain && false !== strpos( $mofile, WP_LANG_DIR . '/plugins/' ) ) {
-		$locale = apply_filters( 'plugin_locale', determine_locale(), $domain );
-		$mofile = WP_PLUGIN_DIR . '/' . dirname( plugin_basename( __FILE__ ) ) . '/languages/' . $domain . '-' . $locale . '.mo';
+add_filter('load_textdomain_mofile', 'auto_hide_admin_bar_load_language_files', 10, 2);
+function auto_hide_admin_bar_load_language_files($mofile, $domain) {
+	if ('auto-hide-admin-bar' === $domain && false !== strpos($mofile, WP_LANG_DIR . '/plugins/')) {
+		$locale = apply_filters('plugin_locale', determine_locale(), $domain);
+		$mofile = WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)) . '/languages/' . $domain . '-' . $locale . '.mo';
 		echo $mofile;
 	}
 	return $mofile;
 }
 
-?>
+/**
+ * Override w.org updates for Git-updater. Arrr.
+ */
+
+add_filter(
+	'gu_override_dot_org',
+	function ($overrides) {
+		return array_merge(
+			$overrides,
+			array(
+				'auto-hide-admin-bar/auto-hide-admin-bar.php', // plugin format
+			)
+		);
+	}
+);
