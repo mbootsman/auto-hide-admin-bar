@@ -317,7 +317,7 @@ function auto_hide_admin_bar_load_language_files($mofile, $domain) {
 }
 
 /**
- * Override w.org updates for Git-updater. Arrr.
+ * Override w.org updates for Git-updater.
  */
 
 add_filter(
