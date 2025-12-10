@@ -1,125 +1,115 @@
 <?php
+/**
+ * Plugin Name:       Auto Hide Admin Bar
+ * Description:       Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
+ * Author:            Marcel Bootsman
+ * Author URI:        https://marcelbootsman.nl
+ * Github Plugin URI: https://github.com/mbootsman/auto-hide-admin-bar
+ * Primary Branch:    main
+ * Text Domain:       auto-hide-admin-bar
+ * Domain Path:       /languages/
+ * License:           GPLv2
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Requires at least: 3.1
+ * Requires PHP:      7.4
+ * Version:           1.6.6
+ *
+ * @package           AHAB
+ */
+
+\define( 'AHAB_PLUGIN_BASE_VERSION', '1.6.6' );
+\define( 'AHAB_PLUGIN_BASE_DIR', \plugin_dir_path( __FILE__ ) ); // Full path with trailing slash.
+\define( 'AHAB_PLUGIN_BASE_URL', \plugin_dir_url( __FILE__ ) ); // With trailing slash.
+\define( 'AHAB_PLUGIN_BASE_SLUG', \basename( __DIR__ ) ); // auto-hide-admin-bar.
+
+if ( ! \defined( 'ABSPATH' ) ) {
+	return; // WP not loaded.
+}
+
+/**
+ * Autoload internal classes.
+ */
+require_once AHAB_PLUGIN_BASE_DIR . 'app/class-plugin.php';
+\spl_autoload_register( array( AHAB\App\Plugin::class, 'autoloader' ) );
+
+\register_activation_hook( __FILE__, array( AHAB\App\Plugin::class, 'activate' ) );
+\register_deactivation_hook( __FILE__, array( AHAB\App\Plugin::class, 'deactivate' ) );
+\register_uninstall_hook( __FILE__, array( AHAB\App\Plugin::class, 'uninstall' ) );
+
+
+\add_action( 'init', array( AHAB\App\Plugin::class, 'load_textdomain' ), 9 );
+\add_filter( 'plugin_action_links_' . \plugin_basename( __FILE__ ), array( AHAB\App\Plugin::class, 'settings_link' ) );
+
+/**
+ ***********************************************
+ * OLD below.
+ ***********************************************
+ */
+
+
 /*
-Plugin Name: Auto Hide Admin Bar
-Description: Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
-Author: Marcel Bootsman
-Version: 1.6.6
-Author URI: https://marcelbootsman.nl
-Github Plugin URI: https://github.com/mbootsman/auto-hide-admin-bar
-Primary Branch: main
-Text Domain: auto-hide-admin-bar
-Domain Path: /languages/
-
-*/
-
-/* ----------------------------------------------------------------------------
+----------------------------------------------------------------------------
  *  Global data */
-$plugin_file              = dirname(__FILE__) . '/auto-hide-admin-bar.php';
-$plugin_path              = plugin_dir_path($plugin_file);
 $keyboard_shortcut_fields = array(
 	'Ctrl'  => 0,
 	'Alt'   => 0,
 	'Shift' => 0,
-	'char'  => ''
+	'char'  => '',
 );
 
 /* Define some default values */
-define('DEFAULT_SPEED', 200);
-define('DEFAULT_DELAY', 1500);
-define('DEFAULT_INTERVAL', 100);
-define('DEFAULT_MOBILE', 1);
-define('DEFAULT_TOGGLE', 1);
-define('DEFAULT_ARROW', 1);
-define('DEFAULT_ARROW_POS', 'left');
-
-/**
- * Returns current plugin version.
- *
- * @return string Plugin version
- */
-function plugin_get_version() {
-	$plugin_data    = get_plugin_data(__FILE__);
-	$plugin_version = $plugin_data['Version'];
-
-	return $plugin_version;
-}
+\define( 'DEFAULT_SPEED', 200 );
+\define( 'DEFAULT_DELAY', 1500 );
+\define( 'DEFAULT_INTERVAL', 100 );
+\define( 'DEFAULT_MOBILE', 1 );
+\define( 'DEFAULT_TOGGLE', 1 );
+\define( 'DEFAULT_ARROW', 1 );
+\define( 'DEFAULT_ARROW_POS', 'left' );
 
 /* Load CSS files */
 function ahab_admin_styles() {
 	// only load if a user is logged in
-	if (is_user_logged_in()) {
-		wp_enqueue_style('admin-styles', plugin_dir_url(__FILE__) . 'css/ahab.css');
+	if ( \is_user_logged_in() ) {
+		\wp_enqueue_style( 'admin-styles', \plugin_dir_url( __FILE__ ) . 'css/ahab.css' );
 	}
 }
-add_action('wp_enqueue_scripts', 'ahab_admin_styles');
+\add_action( 'wp_enqueue_scripts', 'ahab_admin_styles' );
 
-/**
- * Include options page for admin area
- *
- */
-if (is_admin()) {
-	include_once $plugin_path . 'ahab_options.php';
-}
-
-/**
- * Add Settings link to plugin page
- *
- * @param Array $links , filename $file
- *
- * @return Array $links with new link=
- * @author Marcel Bootsman
- *
- */
-add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'ahab_add_plugin_actions_links');
-function ahab_add_plugin_actions_links($links) {
-
-	$ahab_links = array(
-		'<a href="options-general.php?page=auto-hide-admin-bar">' . __("Settings", "auto-hide-admin-bar") . '</a>'
-	);
-
-	return array_merge($links, $ahab_links);
-}
 
 /**
  * Check if ahab is disabled (by user role)
  *
- * @param None
- *
- * @return true / false
  * @author Marcel Bootsman
- *
  */
-
-function is_ahab_disabled() {
+function is_ahab_disabled(): bool {
 	$ahab_disabled = false;
 
 	// Get options
-	$options = get_option('ahab_plugin_options');
+	$options = \get_option( 'ahab_plugin_options' );
 
 	// check if ahab is disabled for current user role
 	global $wp_roles, $current_user, $ahab_disabled;
 
-	foreach ($wp_roles->roles as $role_key => $role) {
+	foreach ( $wp_roles->roles as $role_key => $role ) {
 		// disabled user roles are stored as a seperate array element
 
-		if ($options) { // only continue if options exists
+		if ( $options ) { // only continue if options exists
 
-			if (!empty($options['disabled_user_roles_' . $role_key])) {
+			if ( ! empty( $options[ 'disabled_user_roles_' . $role_key ] ) ) {
 				// check if current user role matches the role
 
-				if (in_array($role_key, $current_user->roles)) {
-
+				if ( \in_array( $role_key, $current_user->roles ) ) {
 					$ahab_disabled = true;
 
 					// leave the foreach loop
 					break;
 				}
 			} else {
-				//no role options set (thanks for updating/installing!), enable ahab for everyone.
+				// no role options set (thanks for updating/installing!), enable ahab for everyone.
 				$ahab_disabled = false;
 			}
 		} else {
-			//no options set, enable ahab for everyone.
+			// no options set, enable ahab for everyone.
 			$ahab_disabled = false;
 		}
 	}
@@ -128,27 +118,27 @@ function is_ahab_disabled() {
 }
 
 /* Add Toggle to admin bar */
-add_action('admin_bar_menu', 'ahab_admin_bar_item', 0);
-function ahab_admin_bar_item(WP_Admin_Bar $admin_bar) {
-	$options = get_option('ahab_plugin_options');
+\add_action( 'admin_bar_menu', 'ahab_admin_bar_item', 0 );
+function ahab_admin_bar_item( \WP_Admin_Bar $admin_bar ) {
+	$options = \get_option( 'ahab_plugin_options' );
 
-	if (!is_admin()) {
-		if ((!empty($options['toggle'])) && (2 == $options['toggle'])) {
-
-
-			$admin_bar->add_menu(array(
-				'id'    => 'ahab-toggle',
-				'parent' => null,
-				'group'  => null,
-				'title' => '<div class="ahab"><label class="switch">
+	if ( ! \is_admin() ) {
+		if ( ( ! empty( $options['toggle'] ) ) && ( 2 == $options['toggle'] ) ) {
+			$admin_bar->add_menu(
+			    array(
+					'id'     => 'ahab-toggle',
+					'parent' => null,
+					'group'  => null,
+					'title'  => '<div class="ahab"><label class="switch">
 		<input id="toggle-checkbox" type="checkbox">
 		<span class="slider round"></span>
 	  </label></div>',
-				'href'  => '',
-				'meta' => [
-					'title' => __('Toggle lock for the Admin bar', 'auto-hide-admin-bar'), //This title will show on hover
-				]
-			));
+					'href'   => '',
+					'meta'   => array(
+						'title' => \__( 'Toggle lock for the Admin bar', 'auto-hide-admin-bar' ), // This title will show on hover
+					),
+				)
+			);
 		}
 	}
 }
@@ -157,49 +147,44 @@ function ahab_admin_bar_item(WP_Admin_Bar $admin_bar) {
 /**
  * The main function. Build JS code and output it.
  *
- * @param None
- *
- * @return None
  * @author Marcel Bootsman
- *
  */
-
-function auto_hide_admin_bar() {
+function auto_hide_admin_bar(): void {
 	// Get options
-	$options = get_option('ahab_plugin_options');
+	$options = \get_option( 'ahab_plugin_options' );
 	global $keyboard_shortcut_fields;
 
-	if ((!empty($options['speed'])) && (is_numeric($options['speed']))) {
+	if ( ( ! empty( $options['speed'] ) ) && ( \is_numeric( $options['speed'] ) ) ) {
 		$ahab_anim_speed = $options['speed'];
 	} else {
 		$ahab_anim_speed = DEFAULT_SPEED;
 	}
 
-	if ((!empty($options['delay'])) && (is_numeric($options['delay']))) {
+	if ( ( ! empty( $options['delay'] ) ) && ( \is_numeric( $options['delay'] ) ) ) {
 		$ahab_delay = $options['delay'];
 	} else {
 		$ahab_delay = DEFAULT_DELAY;
 	}
 
-	if ((!empty($options['interval'])) && (is_numeric($options['interval']))) {
+	if ( ( ! empty( $options['interval'] ) ) && ( \is_numeric( $options['interval'] ) ) ) {
 		$ahab_interval = $options['interval'];
 	} else {
 		$ahab_interval = DEFAULT_INTERVAL;
 	}
 
-	if ((!empty($options['arrow'])) && (is_numeric($options['arrow']))) {
+	if ( ( ! empty( $options['arrow'] ) ) && ( \is_numeric( $options['arrow'] ) ) ) {
 		$ahab_arrow = $options['arrow'];
 	} else {
 		$ahab_arrow = DEFAULT_ARROW;
 	}
 
-	if ((!empty($options['arrow_pos'])) && (is_string($options['arrow_pos']))) {
+	if ( ( ! empty( $options['arrow_pos'] ) ) && ( \is_string( $options['arrow_pos'] ) ) ) {
 		$ahab_arrow_pos = $options['arrow_pos'];
 	} else {
 		$ahab_arrow_pos = DEFAULT_ARROW_POS;
 	}
 
-	if ((!empty($options['mobile'])) && (is_numeric($options['mobile']))) {
+	if ( ( ! empty( $options['mobile'] ) ) && ( \is_numeric( $options['mobile'] ) ) ) {
 		$ahab_mobile = $options['mobile'];
 	} else {
 		$ahab_mobile = DEFAULT_MOBILE;
@@ -208,24 +193,28 @@ function auto_hide_admin_bar() {
 	// get keys and prepare to pass to JS
 	$ahab_keyboard_shortcut_keys = array();
 
-	foreach ($keyboard_shortcut_fields as $key => $value) {
-		if ($options) { // only continue if options exists
-			if (!empty($options['keyboard_shortcut_' . $key])) {
-				if ('' != $options['keyboard_shortcut_' . $key]) {
-					$ahab_keyboard_shortcut_keys[$key] = $options['keyboard_shortcut_' . $key];
-				}
-			}
+	foreach ( $keyboard_shortcut_fields as $key => $value ) {
+		if ( ! $options ) {
+			continue;
 		}
+		// only continue if options exists
+		if ( empty( $options[ 'keyboard_shortcut_' . $key ] ) ) {
+			continue;
+		}
+		if ( '' == $options[ 'keyboard_shortcut_' . $key ] ) {
+			continue;
+		}
+		$ahab_keyboard_shortcut_keys[ $key ] = $options[ 'keyboard_shortcut_' . $key ];
 	}
 
 	/**
 	 * Theme name check - For now only for Twenty Fourteen
 	 * because of the fixed header/menu
-	 **/
-	if (function_exists('wp_get_theme')) {
-		$theme_name = (wp_get_theme()->Template);
-	};
-?>
+	 */
+	if ( \function_exists( 'wp_get_theme' ) ) {
+		$theme_name = ( \wp_get_theme()->Template );
+	}
+	?>
 	<script type='text/javascript'>
 		// For passing the variables to the ahab.js file
 		ahab = {
@@ -236,13 +225,13 @@ function auto_hide_admin_bar() {
 			'ahab_mobile': '<?php echo $ahab_mobile; ?>',
 			'ahab_arrow': '<?php echo $ahab_arrow; ?>',
 			'ahab_arrow_pos': '<?php echo $ahab_arrow_pos; ?>',
-			'ahab_keyboard_ctrl': <?php echo array_key_exists('Ctrl', $ahab_keyboard_shortcut_keys) ? '\'' . $ahab_keyboard_shortcut_keys['Ctrl'] . '\'' : 0; ?>,
-			'ahab_keyboard_alt': <?php echo array_key_exists('Alt', $ahab_keyboard_shortcut_keys) ? '\'' . $ahab_keyboard_shortcut_keys['Alt'] . '\'' : 0; ?>,
-			'ahab_keyboard_shift': <?php echo array_key_exists('Shift', $ahab_keyboard_shortcut_keys) ? '\'' . $ahab_keyboard_shortcut_keys['Shift'] . '\'' : 0; ?>,
-			'ahab_keyboard_char': <?php echo array_key_exists('char', $ahab_keyboard_shortcut_keys) ? '\'' . $ahab_keyboard_shortcut_keys['char'] . '\'' : '\'\''; ?>
+			'ahab_keyboard_ctrl': <?php echo \array_key_exists( 'Ctrl', $ahab_keyboard_shortcut_keys ) ? '\'' . $ahab_keyboard_shortcut_keys['Ctrl'] . '\'' : 0; ?>,
+			'ahab_keyboard_alt': <?php echo \array_key_exists( 'Alt', $ahab_keyboard_shortcut_keys ) ? '\'' . $ahab_keyboard_shortcut_keys['Alt'] . '\'' : 0; ?>,
+			'ahab_keyboard_shift': <?php echo \array_key_exists( 'Shift', $ahab_keyboard_shortcut_keys ) ? '\'' . $ahab_keyboard_shortcut_keys['Shift'] . '\'' : 0; ?>,
+			'ahab_keyboard_char': <?php echo \array_key_exists( 'char', $ahab_keyboard_shortcut_keys ) ? '\'' . $ahab_keyboard_shortcut_keys['char'] . '\'' : '\'\''; ?>
 		};
 	</script>
-<?php
+	<?php
 }
 
 /**
@@ -252,80 +241,46 @@ function auto_hide_admin_bar() {
  *
  * @return None
  * @author Marcel Bootsman
- *
  */
 
-add_action('wp_footer', 'ahab_add_jquery_stuff');
+\add_action( 'wp_footer', 'ahab_add_jquery_stuff' );
 function ahab_add_jquery_stuff() {
 
-	if (is_user_logged_in() && (!is_ahab_disabled())) {
+	if ( \is_user_logged_in() && ( ! \is_ahab_disabled() ) ) {
+		\wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script('jquery');
+		\wp_register_script( 'jquery-hoverintent', \plugins_url( 'js/jquery.hoverIntent.minified.js', __FILE__ ) );
+		\wp_enqueue_script( 'jquery-hoverintent' );
 
-		wp_register_script('jquery-hoverintent', plugins_url('js/jquery.hoverIntent.minified.js', __FILE__));
-		wp_enqueue_script('jquery-hoverintent');
+		\wp_enqueue_script( 'jquery-hotkeys' );
 
-		wp_enqueue_script('jquery-hotkeys');
-
-		wp_register_script('ahab', plugins_url('js/ahab.js', __FILE__));
-		wp_enqueue_script('ahab');
+		\wp_register_script( 'ahab', \plugins_url( 'js/ahab.js', __FILE__ ) );
+		\wp_enqueue_script( 'ahab' );
 	}
 }
 
 /**
  * Hook main function for logged in users
  *
- * @param None
- *
- * @return None
  * @author Marcel Bootsman
- *
  */
-add_action('wp_footer', 'ahab_add_my_hide_stuff');
+\add_action( 'wp_footer', 'ahab_add_my_hide_stuff' );
 function ahab_add_my_hide_stuff() {
-	if (is_user_logged_in() && (!is_ahab_disabled())) {
-		auto_hide_admin_bar();
+	if ( \is_user_logged_in() && ( ! \is_ahab_disabled() ) ) {
+		\auto_hide_admin_bar();
 	}
-}
-
-/**
- * Load Text Domain
- *
- * @param None
- *
- * @return None
- * @author Marcel Bootsman
- *
- */
-add_action('plugins_loaded', 'auto_hide_admin_bar_load_textdomain');
-function auto_hide_admin_bar_load_textdomain() {
-	load_plugin_textdomain('auto-hide-admin-bar', false, basename(dirname(__FILE__)) . '/languages/');
-}
-/**
- * Load language file
- * 
- * @param 
- */
-
-add_filter('load_textdomain_mofile', 'auto_hide_admin_bar_load_language_files', 10, 2);
-function auto_hide_admin_bar_load_language_files($mofile, $domain) {
-	if ('auto-hide-admin-bar' === $domain && false !== strpos($mofile, WP_LANG_DIR . '/plugins/')) {
-		$locale = apply_filters('plugin_locale', determine_locale(), $domain);
-		$mofile = WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)) . '/languages/' . $domain . '-' . $locale . '.mo';
-	}
-	return $mofile;
 }
 
 /**
  * Override w.org updates for Git-updater.
  */
 
-add_filter(
-	'gu_override_dot_org',
-	function ($overrides) {
-		return array_merge(
-			$overrides,
-			array(
+\add_filter(
+    'gu_override_dot_org',
+    function ( $overrides ) {
+		return \array_merge(
+		    $overrides,
+		    array(
 				'auto-hide-admin-bar/auto-hide-admin-bar.php', // plugin format
 			)
 		);
