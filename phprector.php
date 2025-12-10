@@ -25,7 +25,7 @@ return RectorConfig::configure()
 	->withSkipPath( __DIR__ . '/languages' )
 	->withSkipPath( __DIR__ . '/vendor' )
 
-	->withPhpSets( php82: true )
+	->withPhpSets( php74: true )
 	->withPreparedSets(
 		deadCode: true,
 	)
