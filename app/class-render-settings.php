@@ -79,7 +79,15 @@ class Render_Settings {
 	/**
 	 * Render a radio field
 	 *
-	 * @param array $args
+	 * @param array $args {
+	 *     Arguments used to create the settings section.
+	 *
+	 *     @type int    $default         Default value.
+	 *     @type string $description     Description for the field.
+	 *     @type string $option_name     The main name of the option.
+	 *     @type string $sub_option_name The key of the item within the option array.
+	 *     @type array  $values          Array of value => label pairs for the radio options.
+	 * }
 	 */
 	public static function render_input_radio( array $args ): void {
 		$default         = $args['default'] ?? null;

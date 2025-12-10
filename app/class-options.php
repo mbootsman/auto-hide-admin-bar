@@ -37,6 +37,7 @@ class Options {
 
 		self::section_speed();
 		self::section_visual();
+		self::section_other();
 	}
 
 	/**
@@ -157,6 +158,40 @@ class Options {
 				'values'          => array(
 					'left'  => \__( 'Left', 'auto-hide-admin-bar' ),
 					'right' => \__( 'Right', 'auto-hide-admin-bar' ),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Single settings which don't belong to a group.
+	 */
+	protected static function section_other(): void {
+		\add_settings_section(
+			'ahab_plugin_section_other',
+			\__( 'Other', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_section' ),
+			'ahab_plugin'
+		);
+
+		\add_settings_field(
+			'ahab_plugin_option_mobile',
+			\__( 'Show or hide on small screens:', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_input_radio' ),
+			'ahab_plugin',
+			'ahab_plugin_section_other',
+			array(
+				'default'         => self::DEFAULT_MOBILE,
+				'option_name'     => self::OPTION_NAME,
+				'sub_option_name' => 'mobile',
+				'values'          => array(
+					1 => \__( 'Hide the Toolbar', 'auto-hide-admin-bar' ),
+					2 => \__( 'Always show the Toolbar', 'auto-hide-admin-bar' ),
+				),
+				'description'     => \__(
+					'This option allows you to enable or disable the plugin, when on small screens (< 782px). The
+    Default is "Hide the Toolbar". The behaviour of the Toolbar in larger screens will not be affected by this option.', // This weird linebreak is needed for translations.
+					'auto-hide-admin-bar'
 				),
 			)
 		);

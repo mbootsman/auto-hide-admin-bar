@@ -8,34 +8,6 @@
  */
 function ahab_plugin_options_init(): void {
 
-	// Mobile settings
-	\add_settings_section(
-	    'ahab_plugin_section_mobile',
-	    \__(
-	        'Always show if on mobile (smaller than 782px)',
-	        'auto-hide-admin-bar'
-	    ),
-	    'ahab_plugin_section_mobile_text',
-	    'ahab_plugin'
-	);
-	\add_settings_field(
-	    'ahab_plugin_option_mobile',
-	    \__( 'Show or hide on small screens:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_mobile',
-	    'ahab_plugin',
-	    'ahab_plugin_section_mobile'
-	);
-
-	// User role settings
-	\add_settings_section(
-	    'ahab_plugin_section_user_roles',
-	    \__(
-	        'Disable for user roles',
-	        'auto-hide-admin-bar'
-	    ),
-	    'ahab_plugin_section_user_roles_text',
-	    'ahab_plugin'
-	);
 	\add_settings_field(
 	    'ahab_plugin_option_user_roles',
 	    \__( 'Disable for user role:', 'auto-hide-admin-bar' ),
@@ -64,36 +36,6 @@ function ahab_plugin_options_init(): void {
 }
 
 /**
- * Output section text for mobile
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_section_mobile_text(): void {
-	?>
-	<p>
-	<?php
-	\_e(
-		'This option allows you to enable or disable the plugin, when on small screens (< 782px). The
-    Default is "Hide the Toolbar". The behaviour of the Toolbar in larger screens will not be affected by this option.',
-		'auto-hide-admin-bar'
-	);
-	?>
-	</p>
-	<?php
-}
-
-/**
- * Output section text for user roles
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_section_user_roles_text(): void {
-	?>
-	<p> <?php \_e( 'This option allows you to disable the plugin for certain user roles', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
  * Output section text for user roles
  *
  * @author Marcel Bootsman
@@ -101,34 +43,6 @@ function ahab_plugin_section_user_roles_text(): void {
 function ahab_plugin_section_keyboard_shortcut_text(): void {
 	?>
 	<p> <?php \_e( 'Set a keyboard shortcut to hide/show the Toolbar', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
- * Output radio buttons for showing Toolbar on small screens
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_mobile(): void {
-	$options = \get_option( 'ahab_plugin_options' );
-
-	if ( ! empty( $options['mobile'] ) ) {
-		$options_mobile = $options['mobile'];
-	} else {
-		$options_mobile = DEFAULT_MOBILE;
-	}
-
-	?>
-
-	<p>
-		<input type="radio" id="ahab_setting_mobile" name="ahab_plugin_options[mobile]" value="1" <?php \checked( 1, $options_mobile, true ); ?> />
-		<label for="ahab_setting_mobile"><?php \_e( 'Hide the Toolbar', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-	<p>
-		<input type="radio" id="ahab_setting_mobile" name="ahab_plugin_options[mobile]" value="2" <?php \checked( 2, $options_mobile, true ); ?> />
-		<label for="ahab_setting_mobile"><?php \_e( 'Always show the Toolbar', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-
 	<?php
 }
 
