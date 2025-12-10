@@ -40,6 +40,11 @@ require_once AHAB_PLUGIN_BASE_DIR . 'app/class-plugin.php';
 \add_action( 'init', array( AHAB\App\Plugin::class, 'load_textdomain' ), 9 );
 \add_filter( 'plugin_action_links_' . \plugin_basename( __FILE__ ), array( AHAB\App\Plugin::class, 'settings_link' ) );
 
+// Handle the options page.
+\add_action( 'admin_menu', array( AHAB\App\Admin::class, 'register_options_page' ) );
+\add_action( 'admin_menu', array( AHAB\App\Options::class, 'register_settings' ) );
+
+
 /**
  ***********************************************
  * OLD below.
@@ -276,11 +281,11 @@ function ahab_add_my_hide_stuff() {
  */
 
 \add_filter(
-    'gu_override_dot_org',
-    function ( $overrides ) {
+	'gu_override_dot_org',
+	function ( $overrides ) {
 		return \array_merge(
-		    $overrides,
-		    array(
+			$overrides,
+			array(
 				'auto-hide-admin-bar/auto-hide-admin-bar.php', // plugin format
 			)
 		);

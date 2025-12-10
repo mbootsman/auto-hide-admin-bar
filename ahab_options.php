@@ -1,41 +1,5 @@
 <?php
 
-/**
- * This takes care of all the options for Auto Hide Admin Bar
- *
- * @author Marcel Bootsman
- */
-
-\add_action( 'admin_menu', 'ahab_plugin_add_options_page' );
-/**
- * Add an option page as subpage to Plugins.
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_add_options_page(): void {
-	\add_options_page( 'Auto Hide Admin Bar Options', 'Auto Hide Admin Bar', 'manage_options', 'auto-hide-admin-bar', 'ahab_options_page' );
-}
-
-/**
- * Display the plugin options page
- *
- * @author Marcel Bootsman
- */
-function ahab_options_page(): void {
-	?>
-	<div class="wrap">
-		<h2><?php \_e( 'Auto Hide Admin Bar Options', 'auto-hide-admin-bar' ); ?></h2>
-		<?php \_e( 'Options for Auto Hide Admin Bar.', 'auto-hide-admin-bar' ); ?>
-		<form action="options.php" method="post">
-			<?php \settings_fields( 'ahab_plugin_options' ); ?>
-			<?php \do_settings_sections( 'ahab_plugin' ); ?>
-			<input name="Submit" type="submit" class="button button-primary save" value="<?php \_e( 'Save Changes', 'auto-hide-admin-bar' ); ?>" />
-		</form>
-		<p><?php \_e( 'Version: ', 'auto-hide-admin-bar' ); ?><?php echo AHAB_PLUGIN_BASE_VERSION; ?>
-	</div>
-	<?php
-}
-
 \add_action( 'admin_init', 'ahab_plugin_options_init' );
 /**
  * Add the plugin options, sections and fields
@@ -43,58 +7,6 @@ function ahab_options_page(): void {
  * @author Marcel Bootsman
  */
 function ahab_plugin_options_init(): void {
-	\register_setting( 'ahab_plugin_options', 'ahab_plugin_options', 'ahab_validate_input' );
-
-	// Speed settings
-	\add_settings_section(
-	    'ahab_plugin_section_speed',
-	    \__( 'Set speed', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_section_speed_text',
-	    'ahab_plugin'
-	);
-	\add_settings_field(
-	    'ahab_plugin_option_speed',
-	    \__( 'Animation speed:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_speed',
-	    'ahab_plugin',
-	    'ahab_plugin_section_speed'
-	);
-
-	// Delay settings
-	\add_settings_section(
-	    'ahab_plugin_section_delay',
-	    \__(
-	        'Set amount of delay for hiding the Toolbar',
-	        'auto-hide-admin-bar'
-	    ),
-	    'ahab_plugin_section_delay_text',
-	    'ahab_plugin'
-	);
-	\add_settings_field(
-	    'ahab_plugin_option_delay',
-	    \__( 'Delay:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_delay',
-	    'ahab_plugin',
-	    'ahab_plugin_section_delay'
-	);
-
-	// Mouse polling settings
-	\add_settings_section(
-	    'ahab_plugin_section_interval',
-	    \__(
-	        'Set the interval for mouse polling',
-	        'auto-hide-admin-bar'
-	    ),
-	    'ahab_plugin_section_interval_text',
-	    'ahab_plugin'
-	);
-	\add_settings_field(
-	    'ahab_plugin_option_interval',
-	    \__( 'Interval:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_interval',
-	    'ahab_plugin',
-	    'ahab_plugin_section_interval'
-	);
 
 	// Visual options
 	\add_settings_section(
@@ -184,39 +96,6 @@ function ahab_plugin_options_init(): void {
 }
 
 /**
- * Output section text for speed
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_section_speed_text(): void {
-	?>
-	<p> <?php \_e( 'This option allows you to set the animation speed of the hiding/unhiding process. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 200', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
- * Output section text for delay
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_section_delay_text(): void {
-	?>
-	<p> <?php \_e( 'This option allows you to set the delay of the hiding process. This makes sure your Toolbar doesn\'t go haywire when moving quickly in the top of your site. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 1500', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
- * Output section text for interval
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_section_interval_text(): void {
-	?>
-	<p> <?php \_e( 'The number of milliseconds Auto Hide Admin Bar waits between reading/comparing mouse coordinates. When the user\'s mouse first enters the element its coordinates are recorded. Setting the polling interval higher will increase the delay before the Toolbar gets hidden. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 100', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
  * Output section text for visual
  *
  * @author Marcel Bootsman
@@ -268,59 +147,6 @@ function ahab_plugin_section_keyboard_shortcut_text(): void {
 	<?php
 }
 
-
-/**
- * Output input field for speed
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_speed(): void {
-	$options    = \get_option( 'ahab_plugin_options' );
-	$ahab_speed = DEFAULT_SPEED;
-
-	if ( ! empty( ( $options['speed'] ) ) ) {
-		$ahab_speed = \sanitize_text_field( $options['speed'] );
-	}
-
-	?>
-	<input id='ahab_setting_speed' name='ahab_plugin_options[speed]' type='text' value='<?php echo $ahab_speed; ?>' />
-	<?php
-}
-
-/**
- * Output input field for delay
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_delay(): void {
-	$options    = \get_option( 'ahab_plugin_options' );
-	$ahab_delay = DEFAULT_DELAY;
-
-	if ( ! empty( $options['delay'] ) ) {
-		$ahab_delay = \sanitize_text_field( $options['delay'] );
-	}
-
-	?>
-	<input id='ahab_setting_delay' name='ahab_plugin_options[delay]' type='text' value='<?php echo $ahab_delay; ?>' />
-	<?php
-}
-
-/**
- * Output input field for interval
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_interval(): void {
-	$options       = \get_option( 'ahab_plugin_options' );
-	$ahab_interval = DEFAULT_INTERVAL;
-
-	if ( ! empty( $options['interval'] ) ) {
-		$ahab_interval = \sanitize_text_field( $options['interval'] );
-	}
-	?>
-	<input id='ahab_setting_interval' name='ahab_plugin_options[interval]' type='text' value='<?php echo $ahab_interval; ?>' />
-	<?php
-}
 
 /**
  * Arrow options

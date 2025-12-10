@@ -13,6 +13,7 @@
 	<exclude-pattern>/phpstan.php</exclude-pattern>
 	<exclude-pattern>/phpcs-fixer.dist.php</exclude-pattern>
 	<exclude-pattern>/phprector.php</exclude-pattern>
+	<exclude-pattern>/ahab_options.php</exclude-pattern>
 
 	<!-- How to scan -->
 	<!-- Usage instructions: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage -->
@@ -37,6 +38,9 @@
 	<rule ref="WordPress-Docs"/>
 	<rule ref="WordPress">
 		<exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>/app/</exclude-pattern>
 	</rule>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
