@@ -1,5 +1,5 @@
 === Auto Hide Admin Bar ===
-Contributors: mbootsman
+Contributors: mbootsman,janwoostendorp
 Tags: admin bar, autohide, hide, toolbar
 Requires at least: 3.1
 Tested up to: 6.6.2
