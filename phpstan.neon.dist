@@ -1,0 +1,24 @@
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+    phpVersion: 80200
+    level: 8
+    scanFiles:
+        - ./vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        - ./phpstan.php
+    paths:
+        - .
+    excludePaths:
+        - .git
+        - .github
+        # - .githooks
+        - phpstan.php
+        - languages
+        # - node_modules
+        - vendor
+#    ignoreErrors:
+#        - "#^Unsafe access to private property [a-zA-Z0-9\\_\\\\]+::\\$inst through static::.$#"
+#        - '#no value type specified in iterable type array.$#'
+#        - "#^Offset '[a-zA-Z0-9\\_]+' does not exist on array$#"
+#        - "#^Cannot access property \\$[a-zA-Z0-9\\_]+ on stdClass\\|false$#"

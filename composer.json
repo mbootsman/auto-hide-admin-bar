@@ -1,0 +1,76 @@
+{
+  "name": "janw-me/auto-hide-admin-bar",
+  "description": "WordPress plugin to hide the Toolbar (Admin Bar) when logged in ",
+  "type": "wordpress-plugin",
+  "license": "GPLv2 or later",
+  "authors": [
+    {
+      "name": "Jan Willem Oostendorp",
+      "email": "webmaster@janw.me",
+      "homepage": "https://janw.me"
+    },
+    {
+      "name": "Marcel Bootsman",
+      "email": "marcel@nostromo.nl",
+      "homepage": "https://marcelbootsman.nl"
+    }
+  ],
+  "scripts": {
+    "phpfixer": "@php vendor/bin/php-cs-fixer fix --config=phpcs-fixer.dist.php",
+    "phpcbf": "@php vendor/bin/phpcbf || true",
+    "phpcs": "@php vendor/bin/phpcs",
+    "phpstan": "@php vendor/bin/phpstan",
+    "phprector": "@php vendor/bin/rector --config=phprector.php",
+    "ci": [
+      "@phprector",
+      "@phpfixer",
+      "@phpcbf",
+      "@phpcs",
+      "@phpstan"
+    ],
+    "createzip": "bash .github/create-zip.sh -a",
+    "createzip:downloads": "@createzip -a -o ~/Downloads",
+    "bumpversion": "bash .github/update-version.sh",
+    "bumpversion:major": "bash .github/update-version.sh --major",
+    "bumpversion:minor": "bash .github/update-version.sh --minor",
+    "bumpversion:patch": "bash .github/update-version.sh --patch",
+    "update-translations": "wp i18n make-pot ./ && wp i18n update-po ./languages/auto-hide-admin-bar.pot && wp i18n make-mo ./languages/",
+    "publish-version": "bash .github/version-commit.sh"
+  },
+  "scripts-descriptions": {
+    "phpcbf": "Run the phpcbf, an autoformatter.",
+    "phpcs": "Run phpcs, Checks style and syntax agianst theh WordPress coding stadard.",
+    "phpstan": "Run phpstan, Checks styntax, docblock, non existing functions/classes.",
+    "phprector": "Run rector, Checks styntax, docblock, non existing functions/classes.",
+    "ci": "Run all the above syntax checkers at once.",
+    "createzip": "Will create a zip named 'plugin-slug.zip' in the plugin folder.",
+    "createzip:downloads":  "Will create a zip named 'plugin-slug-0.1.0.zip' in the plugin folder.",
+    "bumpversion": "Update the plugin to a custom version. `composer bumpversion -- 0.10.0`",
+    "bumpversion:major": "Update the major version number, the first number.",
+    "bumpversion:minor": "Update the minor version number, the middle number.",
+    "bumpversion:patch": "Update the patch version number, the last number.",
+    "publish-version": "Commit the new version, tag it and push it."
+  },
+  "require-dev": {
+    "wp-coding-standards/wpcs": "^3",
+    "phpcompatibility/phpcompatibility-wp": "^2",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1",
+    "szepeviktor/phpstan-wordpress": "^2.0",
+    "phpstan/phpstan": "^2.1",
+    "friendsofphp/php-cs-fixer": "^3.64",
+    "php-stubs/wp-cli-stubs": "^2.9",
+    "wp-cli/wp-cli-bundle": "^2.11",
+    "rector/rector": "^2.0"
+  },
+  "require": {
+    "php": ">=8.2"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "8.2"
+    }
+  }
+}
