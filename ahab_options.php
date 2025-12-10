@@ -8,38 +8,6 @@
  */
 function ahab_plugin_options_init(): void {
 
-	// Visual options
-	\add_settings_section(
-	    'ahab_plugin_section_visual',
-	    \__(
-	        'Visual options',
-	        'auto-hide-admin-bar'
-	    ),
-	    'ahab_plugin_section_visual_text',
-	    'ahab_plugin'
-	);
-	\add_settings_field(
-	    'ahab_plugin_toggle_button',
-	    \__( 'Show or hide the toggle button:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_toggle',
-	    'ahab_plugin',
-	    'ahab_plugin_section_visual'
-	);
-	\add_settings_field(
-	    'ahab_plugin_option_arrow',
-	    \__( 'Show or hide an arrow:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_arrow',
-	    'ahab_plugin',
-	    'ahab_plugin_section_visual'
-	);
-	\add_settings_field(
-	    'ahab_plugin_option_arrow_position',
-	    \__( 'Arrow position:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_arrow_position',
-	    'ahab_plugin',
-	    'ahab_plugin_section_visual'
-	);
-
 	// Mobile settings
 	\add_settings_section(
 	    'ahab_plugin_section_mobile',
@@ -96,17 +64,6 @@ function ahab_plugin_options_init(): void {
 }
 
 /**
- * Output section text for visual
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_section_visual_text(): void {
-	?>
-	<p> <?php \_e( 'Use this to set visual options, show an arrow to trigger the showing/hiding of the Toolbar, or add a toggle to temporarily stop the Toolbar from hiding.', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
  * Output section text for mobile
  *
  * @author Marcel Bootsman
@@ -144,86 +101,6 @@ function ahab_plugin_section_user_roles_text(): void {
 function ahab_plugin_section_keyboard_shortcut_text(): void {
 	?>
 	<p> <?php \_e( 'Set a keyboard shortcut to hide/show the Toolbar', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-
-/**
- * Arrow options
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_arrow(): void {
-	$options = \get_option( 'ahab_plugin_options' );
-
-	if ( ! empty( $options['arrow'] ) ) {
-		$options_arrow = $options['arrow'];
-	} else {
-		$options_arrow = DEFAULT_ARROW;
-	}
-
-	?>
-	<p>
-		<input type="radio" id="ahab_setting_arrow" name="ahab_plugin_options[arrow]" value="1" <?php \checked( 1, $options_arrow, true ); ?> />
-		<label for="ahab_setting_arrow"><?php \_e( 'No arrow', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-	<p>
-		<input type="radio" id="ahab_setting_arrow" name="ahab_plugin_options[arrow]" value="2" <?php \checked( 2, $options_arrow, true ); ?> />
-		<label for="ahab_setting_arrow"><?php \_e( 'Show an arrow', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-	<?php
-}
-
-/**
- * Toggle button options
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_toggle(): void {
-	$options = \get_option( 'ahab_plugin_options' );
-
-	if ( ! empty( $options['toggle'] ) ) {
-		$options_toggle = $options['toggle'];
-	} else {
-		$options_toggle = DEFAULT_TOGGLE;
-	}
-
-	?>
-	<p>
-		<input type="radio" id="ahab_setting_toggle" name="ahab_plugin_options[toggle]" value="1" <?php \checked( 1, $options_toggle, true ); ?> />
-		<label for="ahab_setting_toggle"><?php \_e( 'Hide toggle button for locking the admin bar', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-	<p>
-		<input type="radio" id="ahab_setting_toggle" name="ahab_plugin_options[toggle]" value="2" <?php \checked( 2, $options_toggle, true ); ?> />
-		<label for="ahab_setting_toggle"><?php \_e( 'Show toggle button for locking the admin bar', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-	<?php
-}
-
-/**
- * Arrow position options
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_arrow_position(): void {
-	$options = \get_option( 'ahab_plugin_options' );
-
-	if ( ! empty( $options['arrow_pos'] ) ) {
-		$options_arrow_pos = $options['arrow_pos'];
-	} else {
-		$options_arrow_pos = DEFAULT_ARROW_POS;
-	}
-
-	?>
-	<p>
-		<input type="radio" id="ahab_setting_arrow_pos" name="ahab_plugin_options[arrow_pos]" value="right" <?php \checked( 'right', $options_arrow_pos, true ); ?> />
-		<label for="ahab_setting_arrow_pos"><?php \_e( 'Right', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-	<p>
-		<input type="radio" id="ahab_setting_arrow_pos" name="ahab_plugin_options[arrow_pos]" value="left" <?php \checked( 'left', $options_arrow_pos, true ); ?> />
-		<label for="ahab_setting_arrow_pos"><?php \_e( 'Left', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-
 	<?php
 }
 

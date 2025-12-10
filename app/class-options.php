@@ -36,6 +36,7 @@ class Options {
 		);
 
 		self::section_speed();
+		self::section_visual();
 	}
 
 	/**
@@ -43,7 +44,7 @@ class Options {
 	 */
 	protected static function section_speed(): void {
 		\add_settings_section(
-			'ahab_settings_speed',
+			'ahab_section_speed',
 			\__( 'Set speed', 'auto-hide-admin-bar' ),
 			array( Render_Settings::class, 'render_section' ),
 			'ahab_plugin'
@@ -55,7 +56,7 @@ class Options {
 			\__( 'Animation speed:', 'auto-hide-admin-bar' ),
 			array( Render_Settings::class, 'render_input_number' ),
 			'ahab_plugin',
-			'ahab_settings_speed',
+			'ahab_section_speed',
 			array(
 				'default'         => self::DEFAULT_SPEED,
 				'description'     => \__( 'This option allows you to set the animation speed of the hiding/unhiding process. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 200', 'auto-hide-admin-bar' ),
@@ -71,7 +72,7 @@ class Options {
 			\__( 'Delay:', 'auto-hide-admin-bar' ),
 			array( Render_Settings::class, 'render_input_number' ),
 			'ahab_plugin',
-			'ahab_settings_speed',
+			'ahab_section_speed',
 			array(
 				'default'         => self::DEFAULT_DELAY,
 				'description'     => \__( 'This option allows you to set the delay of the hiding process. This makes sure your Toolbar doesn\'t go haywire when moving quickly in the top of your site. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 1500', 'auto-hide-admin-bar' ),
@@ -87,13 +88,76 @@ class Options {
 			\__( 'Interval:', 'auto-hide-admin-bar' ),
 			array( Render_Settings::class, 'render_input_number' ),
 			'ahab_plugin',
-			'ahab_settings_speed',
+			'ahab_section_speed',
 			array(
 				'default'         => self::DEFAULT_INTERVAL,
 				'description'     => \__( 'The number of milliseconds Auto Hide Admin Bar waits between reading/comparing mouse coordinates. When the user\'s mouse first enters the element its coordinates are recorded. Setting the polling interval higher will increase the delay before the Toolbar gets hidden. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 100', 'auto-hide-admin-bar' ),
 				'option_name'     => self::OPTION_NAME,
 				'sub_option_name' => 'interval',
 				'label_for'       => 'ahab_setting_interval',
+			)
+		);
+	}
+
+	/**
+	 * Handle the visuals section
+	 */
+	protected static function section_visual(): void {
+		\add_settings_section(
+			'ahab_section_visual',
+			\__( 'Visual options', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_section' ),
+			'ahab_plugin',
+			array(
+				'description' => \__( 'Use this to set visual options, show an arrow to trigger the showing/hiding of the Toolbar, or add a toggle to temporarily stop the Toolbar from hiding.', 'auto-hide-admin-bar' ),
+			)
+		);
+		\add_settings_field(
+			'ahab_plugin_toggle_button',
+			\__( 'Show or hide the toggle button:', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_input_radio' ),
+			'ahab_plugin',
+			'ahab_section_visual',
+			array(
+				'default'         => self::DEFAULT_TOGGLE,
+				'option_name'     => self::OPTION_NAME,
+				'sub_option_name' => 'toggle',
+				'values'          => array(
+					1 => \__( 'Hide toggle button for locking the admin bar', 'auto-hide-admin-bar' ),
+					2 => \__( 'Show toggle button for locking the admin bar', 'auto-hide-admin-bar' ),
+				),
+			)
+		);
+		\add_settings_field(
+			'ahab_plugin_option_arrow',
+			\__( 'Show or hide an arrow:', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_input_radio' ),
+			'ahab_plugin',
+			'ahab_section_visual',
+			array(
+				'default'         => self::DEFAULT_ARROW,
+				'option_name'     => self::OPTION_NAME,
+				'sub_option_name' => 'arrow',
+				'values'          => array(
+					1 => \__( 'No arrow', 'auto-hide-admin-bar' ),
+					2 => \__( 'Show an arrow', 'auto-hide-admin-bar' ),
+				),
+			)
+		);
+		\add_settings_field(
+			'ahab_plugin_option_arrow_position',
+			\__( 'Arrow position:', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_input_radio' ),
+			'ahab_plugin',
+			'ahab_section_visual',
+			array(
+				'default'         => self::DEFAULT_ARROW_POS,
+				'option_name'     => self::OPTION_NAME,
+				'sub_option_name' => 'arrow_pos',
+				'values'          => array(
+					'left'  => \__( 'Left', 'auto-hide-admin-bar' ),
+					'right' => \__( 'Right', 'auto-hide-admin-bar' ),
+				),
 			)
 		);
 	}

@@ -33,17 +33,24 @@ class Render_Settings {
 	/**
 	 * Render a number input field.
 	 *
-	 * @param array $args
+	 * @param array $args {
+	 *     Arguments used to create the settings section.
+	 *
+	 *     @type int    $default         Default value.
+	 *     @type string $description     Description for the field.
+	 *     @type string $option_name     The main name of the option.
+	 *     @type string $sub_option_name The key of the item within the option array.
+	 * }
 	 */
-	public static function render_input_number( array $args ) {
+	public static function render_input_number( array $args ): void {
 		$default         = $args['default'] ?? null;
 		$desciption      = $args['description'] ?? null;
 		$option_name     = $args['option_name'] ?? '';
 		$sub_option_name = $args['sub_option_name'] ?? '';
 
-		$options       = \get_option( $option_name );
-		$current_value = $default;
+		$options = \get_option( $option_name );
 
+		$current_value = $default;
 		if ( isset( ( $options[ $sub_option_name ] ) ) ) { // 0 is a valid value.
 			$current_value = \absint( $options[ $sub_option_name ] );
 		}
@@ -62,7 +69,51 @@ class Render_Settings {
 			$input_html .= $attribute . '="' . $value . '" ';
 		}
 		$input_html .= '/>';
+
 		echo $input_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		if ( $desciption ) {
+			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
+		}
+	}
+
+	/**
+	 * Render a radio field
+	 *
+	 * @param array $args
+	 */
+	public static function render_input_radio( array $args ): void {
+		$default         = $args['default'] ?? null;
+		$desciption      = $args['description'] ?? null;
+		$option_name     = $args['option_name'] ?? '';
+		$sub_option_name = $args['sub_option_name'] ?? '';
+		$values          = $args['values'] ?? array();
+
+		$options = \get_option( $option_name );
+
+		$current_value = $default;
+		if ( ! empty( ( $options[ $sub_option_name ] ) ) ) {
+			$current_value = \absint( $options[ $sub_option_name ] );
+		}
+
+		foreach ( $values as $value => $label ) {
+			$input_attributes = array(
+				'id'    => 'ahab_setting_' . \esc_attr( $sub_option_name ) . '_' . \esc_attr( (string) $value ),
+				'name'  => \esc_attr( $option_name ) . '[' . \esc_attr( $sub_option_name ) . ']',
+				'type'  => 'radio',
+				'value' => \esc_attr( (string) $value ),
+			);
+			$input_html       = '<input ';
+			foreach ( $input_attributes as $attribute => $attr_value ) {
+				$input_html .= $attribute . '="' . $attr_value . '" ';
+			}
+			$input_html .= \checked( $value, $current_value, false );
+			$input_html .= '/>';
+
+			$input_html .= '<label for="' . \esc_attr( $input_attributes['id'] ) . '">' . \esc_html( $label ) . '</label>';
+
+			echo '<p>' . $input_html . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
 		if ( $desciption ) {
 			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
 		}
