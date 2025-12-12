@@ -8,14 +8,6 @@
  */
 function ahab_plugin_options_init(): void {
 
-	\add_settings_field(
-	    'ahab_plugin_option_user_roles',
-	    \__( 'Disable for user role:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_user_roles',
-	    'ahab_plugin',
-	    'ahab_plugin_section_user_roles'
-	);
-
 	// Keyboard settings
 	\add_settings_section(
 	    'ahab_plugin_section_keyboard_shortcut',
@@ -33,83 +25,6 @@ function ahab_plugin_options_init(): void {
 	    'ahab_plugin',
 	    'ahab_plugin_section_keyboard_shortcut'
 	);
-}
-
-/**
- * Output section text for user roles
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_section_keyboard_shortcut_text(): void {
-	?>
-	<p> <?php \_e( 'Set a keyboard shortcut to hide/show the Toolbar', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
- * Output checkboxes for user roles
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_user_roles(): void {
-	$options = \get_option( 'ahab_plugin_options' );
-
-	// get all user roles
-	global $wp_roles;
-
-	foreach ( $wp_roles->roles as $role_key => $role ) {
-		// disabled user roles are stored as a separate array element
-		if ( ! empty( $options[ 'disabled_user_roles_' . $role_key ] ) ) {
-			$ahab_disabled_user_role = $options[ 'disabled_user_roles_' . $role_key ];
-		} else {
-			$ahab_disabled_user_role = '';
-		}
-
-		?>
-		<p>
-			<input type="checkbox" id="ahab_setting_disable_user_roles_<?php echo $role_key; ?>" name="ahab_plugin_options[disabled_user_roles_<?php echo $role_key; ?>]" value="<?php echo $role_key; ?>" <?php \checked( $role_key, $ahab_disabled_user_role, true ); ?> />
-			<label for="ahab_setting_disable_user_roles_<?php echo $role_key; ?>"><?php echo \translate_user_role( $role['name'] ); ?></label>
-		</p>
-		<?php
-	}
-}
-
-/**
- * Output checkboxes for user roles
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_setting_keyboard_shortcut(): void {
-	$options = \get_option( 'ahab_plugin_options' );
-	global $keyboard_shortcut_fields;
-
-	foreach ( $keyboard_shortcut_fields as $key => $value ) {
-		if ( ! empty( $options[ 'keyboard_shortcut_' . $key ] ) ) {
-			if ( '' != $options[ 'keyboard_shortcut_' . $key ] ) {
-				$ahab_keyboard_shortcut_key = $options[ 'keyboard_shortcut_' . $key ];
-			}
-		} else {
-			$ahab_keyboard_shortcut_key = '';
-		}
-		if ( 'char' != $key ) {
-			?>
-			<p>
-				<input type="checkbox" id="ahab_setting_keyboard_shortcut_<?php echo $key; ?>" name="ahab_plugin_options[keyboard_shortcut_<?php echo $key; ?>]" value="<?php echo $key; ?>" <?php \checked( $key, $ahab_keyboard_shortcut_key, true ); ?> />
-				<label for="ahab_setting_keyboard_shortcut_<?php echo $key; ?>"><?php echo $key; ?></label>
-			</p>
-			<?php
-		}
-	}
-
-	// add input field for character
-	$ahab_keyboard_shortcut_character = ( ! empty( \sanitize_text_field( \esc_attr( \substr( $options['keyboard_shortcut_char'], 0, 1 ) ) ) ) ) ? \sanitize_text_field( \esc_attr( \substr( $options['keyboard_shortcut_char'], 0, 1 ) ) ) : '';
-	?>
-	<p>
-		<label for="ahab_setting_keyboard_shortcut_char"><?php \_e( ' Character', 'auto-hide-admin-bar' ); ?></label>
-		<input size="4" type="text" maxlength="1" id="ahab_setting_keyboard_shortcut_char" name="ahab_plugin_options[keyboard_shortcut_char]" value="<?php echo $ahab_keyboard_shortcut_character; ?>" />
-
-	</p>
-	<?php
 }
 
 /**

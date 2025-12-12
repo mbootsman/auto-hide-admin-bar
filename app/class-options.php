@@ -11,14 +11,14 @@ namespace AHAB\App;
  */
 class Options {
 
-	const OPTION_NAME       = 'ahab_plugin_options';
-	const DEFAULT_SPEED     = 200;
-	const DEFAULT_DELAY     = 1500;
-	const DEFAULT_INTERVAL  = 100;
-	const DEFAULT_MOBILE    = 1;
-	const DEFAULT_TOGGLE    = 1;
-	const DEFAULT_ARROW     = 1;
-	const DEFAULT_ARROW_POS = 'left';
+	public const OPTION_NAME       = 'ahab_plugin_options';
+	public const DEFAULT_SPEED     = 200;
+	public const DEFAULT_DELAY     = 1500;
+	public const DEFAULT_INTERVAL  = 100;
+	public const DEFAULT_MOBILE    = 1;
+	public const DEFAULT_TOGGLE    = 1;
+	public const DEFAULT_ARROW     = 1;
+	public const DEFAULT_ARROW_POS = 'left';
 
 	/**
 	 * Register the main setting.
@@ -193,6 +193,17 @@ class Options {
     Default is "Hide the Toolbar". The behaviour of the Toolbar in larger screens will not be affected by this option.', // This weird linebreak is needed for translations.
 					'auto-hide-admin-bar'
 				),
+			)
+		);
+
+		\add_settings_field(
+			'ahab_plugin_option_user_roles',
+			\__( 'Disable for user role:', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_roles_checkboxes' ),
+			'ahab_plugin',
+			'ahab_plugin_section_other',
+			array(
+				'option_name' => self::OPTION_NAME,
 			)
 		);
 	}

@@ -100,9 +100,10 @@ class Render_Settings {
 
 		$current_value = $default;
 		if ( ! empty( ( $options[ $sub_option_name ] ) ) ) {
-			$current_value = \absint( $options[ $sub_option_name ] );
+			$current_value = $options[ $sub_option_name ];
 		}
 
+		echo '<fieldset>';
 		foreach ( $values as $value => $label ) {
 			$input_attributes = array(
 				'id'    => 'ahab_setting_' . \esc_attr( $sub_option_name ) . '_' . \esc_attr( (string) $value ),
@@ -117,13 +118,59 @@ class Render_Settings {
 			$input_html .= \checked( $value, $current_value, false );
 			$input_html .= '/>';
 
-			$input_html .= '<label for="' . \esc_attr( $input_attributes['id'] ) . '">' . \esc_html( $label ) . '</label>';
+			$input_html = '<label for="' . \esc_attr( $input_attributes['id'] ) . '">' . $input_html . \esc_html( $label ) . '</label>';
 
-			echo '<p>' . $input_html . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $input_html . '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		if ( $desciption ) {
 			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
 		}
+		echo '</fieldset>';
+	}
+
+	/**
+	 * Render the checkboxes with Roles.
+	 *
+	 * @param array $args {
+	 *     Arguments used to create the settings section.
+	 *     @type string $description     Description for the field.
+	 *     @type string $option_name     The main name of the option.
+	 * }
+	 */
+	public static function render_roles_checkboxes( array $args ): void {
+		$option_name = $args['option_name'] ?? '';
+		$desciption  = $args['description'] ?? null;
+		$options     = \get_option( $option_name );
+
+		$wp_roles = \wp_roles()->roles;
+
+		echo '<fieldset>';
+		foreach ( $wp_roles as $role_key => $role ) {
+			$input_attributes = array(
+				'name'  => \esc_attr( $option_name ) . '[disabled_user_roles_' . \esc_attr( $role_key ) . ']',
+				'type'  => 'checkbox',
+				'value' => \esc_attr( (string) $role_key ),
+			);
+			$input_html       = '<input ';
+			foreach ( $input_attributes as $attribute => $attr_value ) {
+				$input_html .= $attribute . '="' . $attr_value . '" ';
+			}
+
+			$checked = false;
+			if ( ! empty( $options[ 'disabled_user_roles_' . $role_key ] ) && $options[ 'disabled_user_roles_' . $role_key ] === $role_key ) {
+				$checked = true;
+			}
+			$input_html .= \checked( true, $checked, false );
+			$input_html .= '/>';
+
+			$input_html = '<label>' . $input_html . \esc_html( \translate_user_role( $role['name'] ) ) . '</label>';
+
+			echo $input_html . '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+		if ( $desciption ) {
+			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
+		}
+		echo '</fieldset>';
 	}
 }

@@ -44,8 +44,6 @@ class Plugin {
 	 * Add a settings link to the the plugin on the plugin page
 	 *
 	 * @param array $links An array of plugin action links.
-	 *
-	 * @return array
 	 */
 	public static function settings_link( array $links ): array {
 		$href          = \admin_url( 'options-general.php?page=auto-hide-admin-bar' );

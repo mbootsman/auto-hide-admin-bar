@@ -130,7 +130,7 @@ function ahab_admin_bar_item( \WP_Admin_Bar $admin_bar ) {
 	if ( ! \is_admin() ) {
 		if ( ( ! empty( $options['toggle'] ) ) && ( 2 == $options['toggle'] ) ) {
 			$admin_bar->add_menu(
-			    array(
+				array(
 					'id'     => 'ahab-toggle',
 					'parent' => null,
 					'group'  => null,
