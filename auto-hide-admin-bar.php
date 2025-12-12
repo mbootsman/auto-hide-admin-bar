@@ -282,12 +282,10 @@ function ahab_add_my_hide_stuff() {
 
 \add_filter(
 	'gu_override_dot_org',
-	function ( $overrides ) {
-		return \array_merge(
-			$overrides,
-			array(
-				'auto-hide-admin-bar/auto-hide-admin-bar.php', // plugin format
-			)
-		);
-	}
+	fn( $overrides ) => \array_merge(
+		$overrides,
+		array(
+			'auto-hide-admin-bar/auto-hide-admin-bar.php', // plugin format
+		)
+	)
 );

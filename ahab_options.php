@@ -1,32 +1,5 @@
 <?php
 
-\add_action( 'admin_init', 'ahab_plugin_options_init' );
-/**
- * Add the plugin options, sections and fields
- *
- * @author Marcel Bootsman
- */
-function ahab_plugin_options_init(): void {
-
-	// Keyboard settings
-	\add_settings_section(
-	    'ahab_plugin_section_keyboard_shortcut',
-	    \__(
-	        'Keyboard shortcut',
-	        'auto-hide-admin-bar'
-	    ),
-	    'ahab_plugin_section_keyboard_shortcut_text',
-	    'ahab_plugin'
-	);
-	\add_settings_field(
-	    'ahab_plugin_option_keyboard_shortcut',
-	    \__( 'Set keyboard shortcut to:', 'auto-hide-admin-bar' ),
-	    'ahab_plugin_setting_keyboard_shortcut',
-	    'ahab_plugin',
-	    'ahab_plugin_section_keyboard_shortcut'
-	);
-}
-
 /**
  * Validate the user input
  *

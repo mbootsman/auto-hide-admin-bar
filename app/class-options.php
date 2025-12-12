@@ -29,7 +29,7 @@ class Options {
 			self::OPTION_NAME,
 			self::OPTION_NAME,
 			array(
-				// @todo sanitize callback.
+				'ahab_validate_input',
 				'show_in_rest' => false,
 				'default'      => array(), // @TODO fill with the defaults.
 			)
@@ -204,6 +204,18 @@ class Options {
 			'ahab_plugin_section_other',
 			array(
 				'option_name' => self::OPTION_NAME,
+			)
+		);
+
+		\add_settings_field(
+			'ahab_plugin_option_keyboard_shortcut',
+			\__( 'Set keyboard shortcut to:', 'auto-hide-admin-bar' ),
+			array( Render_Settings::class, 'render_shortcut_checkboxes' ),
+			'ahab_plugin',
+			'ahab_plugin_section_other',
+			array(
+				'option_name' => self::OPTION_NAME,
+				'description' => \__( 'Set a keyboard shortcut to hide/show the Toolbar', 'auto-hide-admin-bar' ),
 			)
 		);
 	}

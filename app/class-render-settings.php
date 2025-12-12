@@ -173,4 +173,65 @@ class Render_Settings {
 		}
 		echo '</fieldset>';
 	}
+
+
+	/**
+	 * Render the checkboxes.
+	 *
+	 * @param array $args {
+	 *     Arguments used to create the settings section.
+	 *     @type string $description     Description for the field.
+	 *     @type string $option_name     The main name of the option.
+	 * }
+	 */
+	public static function render_shortcut_checkboxes( array $args ): void {
+		$desciption  = $args['description'] ?? null;
+		$option_name = $args['option_name'] ?? '';
+		$options     = \get_option( $option_name );
+
+		echo '<fieldset>';
+		foreach ( array( 'Ctrl', 'Alt', 'Shift' ) as $value ) {
+			if ( $value === 'char' ) {
+				continue;
+			}
+			$ahab_keyboard_shortcut_key = '';
+			if ( ! empty( $options[ 'keyboard_shortcut_' . $value ] ) ) {
+				$ahab_keyboard_shortcut_key = $options[ 'keyboard_shortcut_' . $value ];
+			}
+			$input_attributes = array(
+				'name'  => \esc_attr( $option_name ) . '[keyboard_shortcut_' . \esc_attr( $value ) . ']',
+				'type'  => 'checkbox',
+				'value' => \esc_attr( $value ),
+			);
+			$input_html       = '<input ';
+			foreach ( $input_attributes as $attribute => $attr_value ) {
+				$input_html .= $attribute . '="' . $attr_value . '" ';
+			}
+
+			$checked = false;
+			if ( ! empty( $options[ 'keyboard_shortcut_' . $value ] ) && $options[ 'keyboard_shortcut_' . $value ] === $value ) {
+				$checked = true;
+			}
+			$input_html .= \checked( true, $checked, false );
+			$input_html .= '/>';
+
+			$input_html = '<label>' . $input_html . \esc_html( $value ) . '</label>';
+
+			echo $input_html . '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
+		$keyboard_char = '';
+		if ( ! empty( $options['keyboard_shortcut_char'] ) ) {
+			$keyboard_char = \sanitize_text_field( \substr( $options['keyboard_shortcut_char'], 0, 1 ) );
+		}
+
+		$input_html_key = '<input size="2" type="text" maxlength="1" name="ahab_plugin_options[keyboard_shortcut_char]" value="' . \esc_attr( $keyboard_char ) . '"/>';
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<label>' . $input_html_key . ' ' . \esc_html__( ' Character', 'auto-hide-admin-bar' ) . '</label>';
+		if ( $desciption ) {
+			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
+		}
+		echo '</fieldset>';
+	}
 }
