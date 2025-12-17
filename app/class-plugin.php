@@ -27,7 +27,7 @@ class Plugin {
 		}
 		// lowercase, Remove NAMESPACE, Replace \\ → /   _ → - .
 		$class_path = \strtolower( \str_replace( array( __NAMESPACE__, '\\', '_' ), array( '', \DIRECTORY_SEPARATOR, '-' ), $class_name ) );
-		$class_path = AHAB_PLUGIN_BASE_DIR . 'app' . \dirname( $class_path ) . \DIRECTORY_SEPARATOR . 'class-' . \basename( $class_path ) . '.php';
+		$class_path = AHAB_DIR . 'app' . \dirname( $class_path ) . \DIRECTORY_SEPARATOR . 'class-' . \basename( $class_path ) . '.php';
 		if ( \file_exists( $class_path ) ) {
 			require_once $class_path;
 			return;
@@ -46,7 +46,7 @@ class Plugin {
 	 * @param array $links An array of plugin action links.
 	 */
 	public static function settings_link( array $links ): array {
-		$href          = \admin_url( 'options-general.php?page=' . AHAB_PLUGIN_BASE_SLUG );
+		$href          = \admin_url( 'options-general.php?page=' . AHAB_SLUG );
 		$settings_link = '<a href="' . $href . '">' . \__( 'Settings' ) . '</a>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
 		\array_unshift( $links, $settings_link );
 
@@ -65,7 +65,7 @@ class Plugin {
 		return \array_merge(
 			$overrides,
 			array(
-				AHAB_PLUGIN_BASE_SLUG . '/' . AHAB_PLUGIN_BASE_SLUG . '.php',
+				AHAB_SLUG . '/' . AHAB_SLUG . '.php',
 			)
 		);
 	}
@@ -74,7 +74,7 @@ class Plugin {
 	 * Load the translations for the plugin.
 	 */
 	public static function load_textdomain(): void {
-		\load_plugin_textdomain( AHAB_PLUGIN_BASE_SLUG, false, \plugin_basename( AHAB_PLUGIN_BASE_DIR ) . '/languages/' );
+		\load_plugin_textdomain( AHAB_SLUG, false, \plugin_basename( AHAB_DIR ) . '/languages/' );
 	}
 
 	/**

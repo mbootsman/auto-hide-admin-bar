@@ -17,8 +17,9 @@ parameters:
         - languages
         # - node_modules
         - vendor
-#    ignoreErrors:
+    ignoreErrors:
+        - '#no value type specified in iterable type array.$#'
+        - '#^Cannot cast array\|bool\|int\|string\|null to string.$#'
 #        - "#^Unsafe access to private property [a-zA-Z0-9\\_\\\\]+::\\$inst through static::.$#"
-#        - '#no value type specified in iterable type array.$#'
 #        - "#^Offset '[a-zA-Z0-9\\_]+' does not exist on array$#"
 #        - "#^Cannot access property \\$[a-zA-Z0-9\\_]+ on stdClass\\|false$#"

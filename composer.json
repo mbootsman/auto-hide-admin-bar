@@ -63,14 +63,14 @@
     "rector/rector": "^2.0"
   },
   "require": {
-    "php": ">=8.2"
+    "php": ">=7.4"
   },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
     },
     "platform": {
-      "php": "8.2"
+      "php": "7.4"
     }
   }
 }

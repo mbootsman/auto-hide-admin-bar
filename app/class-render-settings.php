@@ -31,48 +31,72 @@ class Render_Settings {
 	}
 
 	/**
+	 * Render checkboxes.
+	 *
+	 * @param array $args {
+	 *     Passing on the option object.
+	 *     @type Option    $option       The option being rendered.
+	 * }
+	 */
+	public static function render_input_text( array $args ): void {
+		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
+			\wp_die( 'Invalid option provided to ' . __METHOD__ );
+		}
+		/**
+		 * The current option.
+		 *
+		 * @var Option $option
+		 */
+		$option = $args['option'];
+
+		$input_html = self::render_input_tag(
+			array(
+				'type'        => 'text',
+				'id'          => \esc_attr( 'ahab_setting_' . $option->get_slug() ),
+				'name'        => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
+				'value'       => \esc_attr( (string) $option->get_current_value() ),
+				'placeholder' => (string) $option->get_default_value(),
+			)
+		);
+		echo $input_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		if ( $option->get_render_description() ) {
+			echo '<p class="description">' . \esc_html( $option->get_render_description() ) . '</p>';
+		}
+	}
+
+	/**
 	 * Render a number input field.
 	 *
 	 * @param array $args {
-	 *     Arguments used to create the settings section.
-	 *
-	 *     @type int    $default         Default value.
-	 *     @type string $description     Description for the field.
-	 *     @type string $option_name     The main name of the option.
-	 *     @type string $sub_option_name The key of the item within the option array.
+	 *     Passing on the option object.
+	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
 	public static function render_input_number( array $args ): void {
-		$default         = $args['default'] ?? null;
-		$desciption      = $args['description'] ?? null;
-		$option_name     = $args['option_name'] ?? '';
-		$sub_option_name = $args['sub_option_name'] ?? '';
-
-		$options = \get_option( $option_name );
-
-		$current_value = $default;
-		if ( isset( ( $options[ $sub_option_name ] ) ) ) { // 0 is a valid value.
-			$current_value = \absint( $options[ $sub_option_name ] );
+		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
+			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
+		/**
+		 * The current option.
+		 *
+		 * @var Option $option
+		 */
+		$option = $args['option'];
 
-		$input_attributes = array(
-			'id'          => 'ahab_setting_' . \esc_attr( $sub_option_name ),
-			'name'        => \esc_attr( $option_name ) . '[' . \esc_attr( $sub_option_name ) . ']',
-			'type'        => 'number',
-			'value'       => \esc_attr( (string) $current_value ),
-			'min'         => '0', // No negative values.
-			'max'         => '60000', // 60 seconds max.
-			'placeholder' => (string) $default,
+		$input_html = self::render_input_tag(
+			array(
+				'type'        => 'number',
+				'min'         => '0', // No negative values.
+				'max'         => '60000', // 60 seconds max.
+				'id'          => \esc_attr( 'ahab_setting_' . $option->get_slug() ),
+				'name'        => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
+				'value'       => \esc_attr( (string) $option->get_current_value() ),
+				'placeholder' => (string) $option->get_default_value(),
+			)
 		);
-		$input_html       = '<input ';
-		foreach ( $input_attributes as $attribute => $value ) {
-			$input_html .= $attribute . '="' . $value . '" ';
-		}
-		$input_html .= '/>';
-
 		echo $input_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		if ( $desciption ) {
-			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
+		if ( $option->get_render_description() ) {
+			echo '<p class="description">' . \esc_html( $option->get_render_description() ) . '</p>';
 		}
 	}
 
@@ -80,157 +104,131 @@ class Render_Settings {
 	 * Render a radio field
 	 *
 	 * @param array $args {
-	 *     Arguments used to create the settings section.
-	 *
-	 *     @type int    $default         Default value.
-	 *     @type string $description     Description for the field.
-	 *     @type string $option_name     The main name of the option.
-	 *     @type string $sub_option_name The key of the item within the option array.
-	 *     @type array  $values          Array of value => label pairs for the radio options.
+	 *     Passing on the option object.
+	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
 	public static function render_input_radio( array $args ): void {
-		$default         = $args['default'] ?? null;
-		$desciption      = $args['description'] ?? null;
-		$option_name     = $args['option_name'] ?? '';
-		$sub_option_name = $args['sub_option_name'] ?? '';
-		$values          = $args['values'] ?? array();
-
-		$options = \get_option( $option_name );
-
-		$current_value = $default;
-		if ( ! empty( ( $options[ $sub_option_name ] ) ) ) {
-			$current_value = $options[ $sub_option_name ];
+		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
+			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
+		/**
+		 * The current option.
+		 *
+		 * @var Option $option
+		 */
+		$option = $args['option'];
 
 		echo '<fieldset>';
-		foreach ( $values as $value => $label ) {
-			$input_attributes = array(
-				'id'    => 'ahab_setting_' . \esc_attr( $sub_option_name ) . '_' . \esc_attr( (string) $value ),
-				'name'  => \esc_attr( $option_name ) . '[' . \esc_attr( $sub_option_name ) . ']',
-				'type'  => 'radio',
-				'value' => \esc_attr( (string) $value ),
+		foreach ( $option->get_allowed_values() as $value => $label ) {
+			$input_html = self::render_input_tag(
+				array(
+					'type'  => 'radio',
+					'id'    => \esc_attr( 'ahab_setting_' . $option->get_slug() . '_' . $value ),
+					'name'  => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
+					'value' => \esc_attr( (string) $value ),
+					0       => \checked( $value, $option->get_current_value(), false ),
+				),
+				\esc_html( $label )
 			);
-			$input_html       = '<input ';
-			foreach ( $input_attributes as $attribute => $attr_value ) {
-				$input_html .= $attribute . '="' . $attr_value . '" ';
-			}
-			$input_html .= \checked( $value, $current_value, false );
-			$input_html .= '/>';
-
-			$input_html = '<label for="' . \esc_attr( $input_attributes['id'] ) . '">' . $input_html . \esc_html( $label ) . '</label>';
-
 			echo $input_html . '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
-
-		if ( $desciption ) {
-			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
+		if ( $option->get_render_description() ) {
+			echo '<p class="description">' . \esc_html( $option->get_render_description() ) . '</p>';
 		}
 		echo '</fieldset>';
 	}
 
 	/**
-	 * Render the checkboxes with Roles.
+	 * Render checkboxes.
 	 *
 	 * @param array $args {
-	 *     Arguments used to create the settings section.
-	 *     @type string $description     Description for the field.
-	 *     @type string $option_name     The main name of the option.
+	 *     Passing on the option object.
+	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
-	public static function render_roles_checkboxes( array $args ): void {
-		$option_name = $args['option_name'] ?? '';
-		$desciption  = $args['description'] ?? null;
-		$options     = \get_option( $option_name );
-
-		$wp_roles = \wp_roles()->roles;
-
+	public static function render_checkboxes( array $args ): void {
+		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
+			\wp_die( 'Invalid option provided to ' . __METHOD__ );
+		}
+		/**
+		 * The current option.
+		 *
+		 * @var Option $option
+		 */
+		$option = $args['option'];
 		echo '<fieldset>';
-		foreach ( $wp_roles as $role_key => $role ) {
-			$input_attributes = array(
-				'name'  => \esc_attr( $option_name ) . '[disabled_user_roles_' . \esc_attr( $role_key ) . ']',
-				'type'  => 'checkbox',
-				'value' => \esc_attr( (string) $role_key ),
+		foreach ( $option->get_allowed_values() as $value => $label ) {
+			$checked    = \in_array( $value, (array) $option->get_current_value(), true );
+			$input_html = self::render_input_tag(
+				array(
+					'type'  => 'checkbox',
+					'id'    => \esc_attr( 'ahab_setting_' . $option->get_slug() . '_' . $value ),
+					'name'  => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . '][]',
+					'value' => \esc_attr( (string) $value ),
+					0       => \checked( $checked, true, false ),
+				),
+				\esc_html( $label )
 			);
-			$input_html       = '<input ';
-			foreach ( $input_attributes as $attribute => $attr_value ) {
-				$input_html .= $attribute . '="' . $attr_value . '" ';
-			}
-
-			$checked = false;
-			if ( ! empty( $options[ 'disabled_user_roles_' . $role_key ] ) && $options[ 'disabled_user_roles_' . $role_key ] === $role_key ) {
-				$checked = true;
-			}
-			$input_html .= \checked( true, $checked, false );
-			$input_html .= '/>';
-
-			$input_html = '<label>' . $input_html . \esc_html( \translate_user_role( $role['name'] ) ) . '</label>';
-
 			echo $input_html . '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
-		if ( $desciption ) {
-			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
+		\do_action( 'ahab_render_checkboxes_fieldset', $option );
+		if ( $option->get_render_description() ) {
+			echo '<p class="description">' . \esc_html( $option->get_render_description() ) . '</p>';
 		}
 		echo '</fieldset>';
 	}
 
+
 	/**
-	 * Render the checkboxes.
+	 * Render checkboxes.
 	 *
 	 * @param array $args {
-	 *     Arguments used to create the settings section.
-	 *     @type string $description     Description for the field.
-	 *     @type string $option_name     The main name of the option.
+	 *     Passing on the option object.
+	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
-	public static function render_shortcut_checkboxes( array $args ): void {
-		$desciption  = $args['description'] ?? null;
-		$option_name = $args['option_name'] ?? '';
-		$options     = \get_option( $option_name );
-
-		echo '<fieldset>';
-		foreach ( array( 'Ctrl', 'Alt', 'Shift' ) as $value ) {
-			if ( $value === 'char' ) {
-				continue;
-			}
-			$ahab_keyboard_shortcut_key = '';
-			if ( ! empty( $options[ 'keyboard_shortcut_' . $value ] ) ) {
-				$ahab_keyboard_shortcut_key = $options[ 'keyboard_shortcut_' . $value ];
-			}
-			$input_attributes = array(
-				'name'  => \esc_attr( $option_name ) . '[keyboard_shortcut_' . \esc_attr( $value ) . ']',
-				'type'  => 'checkbox',
-				'value' => \esc_attr( $value ),
-			);
-			$input_html       = '<input ';
-			foreach ( $input_attributes as $attribute => $attr_value ) {
-				$input_html .= $attribute . '="' . $attr_value . '" ';
-			}
-
-			$checked = false;
-			if ( ! empty( $options[ 'keyboard_shortcut_' . $value ] ) && $options[ 'keyboard_shortcut_' . $value ] === $value ) {
-				$checked = true;
-			}
-			$input_html .= \checked( true, $checked, false );
-			$input_html .= '/>';
-
-			$input_html = '<label>' . $input_html . \esc_html( $value ) . '</label>';
-
-			echo $input_html . '<br/>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	public static function render_checkboxes_shortcut( array $args ): void {
+		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
+			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
 
-		$keyboard_char = '';
-		if ( ! empty( $options['keyboard_shortcut_char'] ) ) {
-			$keyboard_char = \sanitize_text_field( \substr( $options['keyboard_shortcut_char'], 0, 1 ) );
+		\add_action(
+			'ahab_render_checkboxes_fieldset',
+			function () {
+				$character_option = Options::get_option( 'shortcut_character' );
+				self::render_input_text( array( 'option' => $character_option ) );
+			}
+		);
+		self::render_checkboxes( $args );
+	}
+
+	/**
+	 * Render a generic input field.
+	 *
+	 * @param array   $attributes Attributes for the input field.
+	 * @param ?string $label_text Optional label text.
+	 */
+	protected static function render_input_tag( array $attributes = array(), string $label_text = null ): string {
+		$input_html = '<input ';
+		foreach ( $attributes as $attribute => $value ) {
+			if ( \is_string( $attribute ) ) {
+				$input_html .= $attribute . '="' . $value . '" ';
+			} else {
+				// Used for unnamed attributes like 'checked'.
+				$input_html .= $value . ' ';
+			}
+		}
+		$input_html .= '/>';
+
+		if ( $label_text !== null ) {
+			$for_attr = '';
+			if ( ! empty( $attributes['id'] ) ) {
+				$for_attr = ' for="' . \esc_attr( $attributes['id'] ) . '"';
+			}
+			$input_html = '<label' . $for_attr . '>' . $input_html . $label_text . '</label>';
 		}
 
-		$input_html_key = '<input size="2" type="text" maxlength="1" name="ahab_plugin_options[keyboard_shortcut_char]" value="' . \esc_attr( $keyboard_char ) . '"/>';
-
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo '<label>' . $input_html_key . ' ' . \esc_html__( ' Character', 'auto-hide-admin-bar' ) . '</label>';
-		if ( $desciption ) {
-			echo '<p class="description">' . \esc_html( $desciption ) . '</p>';
-		}
-		echo '</fieldset>';
+		return $input_html;
 	}
 }

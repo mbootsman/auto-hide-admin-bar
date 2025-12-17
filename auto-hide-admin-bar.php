@@ -17,10 +17,10 @@
  * @package           AHAB
  */
 
-\define( 'AHAB_PLUGIN_BASE_VERSION', '1.6.6' );
-\define( 'AHAB_PLUGIN_BASE_DIR', \plugin_dir_path( __FILE__ ) ); // Full path with trailing slash.
-\define( 'AHAB_PLUGIN_BASE_URL', \plugin_dir_url( __FILE__ ) ); // With trailing slash.
-\define( 'AHAB_PLUGIN_BASE_SLUG', \basename( __DIR__ ) ); // auto-hide-admin-bar.
+\define( 'AHAB_VERSION', '1.6.6' );
+\define( 'AHAB_DIR', \plugin_dir_path( __FILE__ ) ); // Full path with trailing slash.
+\define( 'AHAB_URL', \plugin_dir_url( __FILE__ ) ); // With trailing slash.
+\define( 'AHAB_SLUG', \basename( __DIR__ ) ); // auto-hide-admin-bar.
 
 if ( ! \defined( 'ABSPATH' ) ) {
 	return; // WP not loaded.
@@ -29,7 +29,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
 /**
  * Autoload internal classes.
  */
-require_once AHAB_PLUGIN_BASE_DIR . 'app/class-plugin.php';
+require_once AHAB_DIR . 'app/class-plugin.php';
 \spl_autoload_register( array( AHAB\App\Plugin::class, 'autoloader' ) );
 
 \register_activation_hook( __FILE__, array( AHAB\App\Plugin::class, 'activate' ) );
@@ -43,7 +43,7 @@ require_once AHAB_PLUGIN_BASE_DIR . 'app/class-plugin.php';
 
 // Handle the options page.
 \add_action( 'admin_menu', array( AHAB\App\Admin::class, 'register_options_page' ) );
-\add_action( 'admin_menu', array( AHAB\App\Options::class, 'register_settings' ) );
+\add_action( 'admin_menu', array( AHAB\App\Settings::class, 'register_settings' ) );
 
 \add_action( 'admin_bar_menu', array( AHAB\App\Frontend::class, 'admin_bar_item' ), 0 );
 
@@ -52,6 +52,7 @@ require_once AHAB_PLUGIN_BASE_DIR . 'app/class-plugin.php';
 /**
  ***********************************************
  * OLD below.
+ * phpcs:disable
  ***********************************************
  */
 

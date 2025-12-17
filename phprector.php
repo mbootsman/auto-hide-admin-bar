@@ -25,13 +25,17 @@ return RectorConfig::configure()
 	->withSkipPath( __DIR__ . '/languages' )
 	->withSkipPath( __DIR__ . '/vendor' )
 
-	->withPhpSets( php74: true )
+	->withPhp74Sets(
+	)
 	->withPreparedSets(
-		deadCode: true,
+		true,
 	)
 	->withImportNames(
-		removeUnusedImports: true,
-		importShortClasses: false,
+		true,
+		true,
+		false,
+		true
+
 	)
 	->withRules(
 		array(
