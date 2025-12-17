@@ -39,6 +39,7 @@ require_once AHAB_PLUGIN_BASE_DIR . 'app/class-plugin.php';
 
 \add_action( 'init', array( AHAB\App\Plugin::class, 'load_textdomain' ), 9 );
 \add_filter( 'plugin_action_links_' . \plugin_basename( __FILE__ ), array( AHAB\App\Plugin::class, 'settings_link' ) );
+\add_filter( 'gu_override_dot_org', array( AHAB\App\Plugin::class, 'override_dot_org' ) );
 
 // Handle the options page.
 \add_action( 'admin_menu', array( AHAB\App\Admin::class, 'register_options_page' ) );
@@ -252,16 +253,3 @@ function ahab_add_my_hide_stuff() {
 	}
 }
 
-/**
- * Override w.org updates for Git-updater.
- */
-
-\add_filter(
-	'gu_override_dot_org',
-	fn( $overrides ) => \array_merge(
-		$overrides,
-		array(
-			'auto-hide-admin-bar/auto-hide-admin-bar.php', // plugin format
-		)
-	)
-);

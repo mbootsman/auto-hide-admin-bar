@@ -2,7 +2,7 @@
 declare( strict_types=1 );
 namespace AHAB\app;
 
-use WP_Admin_Bar;
+use AHAB\App\Options;
 
 /**
  * Class Frontend
@@ -22,7 +22,7 @@ class Frontend {
 		if ( \is_admin() ) {
 			return; // Do nothing in the wp-admin.
 		}
-		$ahab_options = \get_option( 'ahab_plugin_options' );
+		$ahab_options = \get_option( Options::OPTION_NAME );
 		if ( empty( $ahab_options['toggle'] ) || (int) $ahab_options['toggle'] !== 2 ) {
 			return; // The toggle is not enabled.
 		}

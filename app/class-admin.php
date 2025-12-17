@@ -20,7 +20,7 @@ class Admin {
 			\__( 'Auto Hide Admin Bar Options', 'auto-hide-admin-bar' ),
 			\__( 'Auto Hide Admin Bar', 'auto-hide-admin-bar' ),
 			'manage_options',
-			'auto-hide-admin-bar',
+			AHAB_PLUGIN_BASE_SLUG,
 			array( self::class, 'render_options_page' )
 		);
 	}

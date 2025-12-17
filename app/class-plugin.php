@@ -46,11 +46,28 @@ class Plugin {
 	 * @param array $links An array of plugin action links.
 	 */
 	public static function settings_link( array $links ): array {
-		$href          = \admin_url( 'options-general.php?page=auto-hide-admin-bar' );
+		$href          = \admin_url( 'options-general.php?page=' . AHAB_PLUGIN_BASE_SLUG );
 		$settings_link = '<a href="' . $href . '">' . \__( 'Settings' ) . '</a>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
 		\array_unshift( $links, $settings_link );
 
 		return $links;
+	}
+
+	/**
+	 * Override w.org updates for Git-updater.
+	 *
+	 * This is just addapted when the code rewrite was done.
+	 * And is untested.
+	 *
+	 * @param array $overrides Existing overrides.
+	 */
+	public static function override_dot_org( array $overrides ): array {
+		return \array_merge(
+			$overrides,
+			array(
+				AHAB_PLUGIN_BASE_SLUG . '/' . AHAB_PLUGIN_BASE_SLUG . '.php',
+			)
+		);
 	}
 
 	/**
