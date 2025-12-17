@@ -60,11 +60,11 @@ jQuery(document).ready(function ($) {
 
 		// Show the Admin Bar
 		function adminBarShow() {
-			$('#wpadminbar').animate({ 'top': '0px' }, ahab['ahab_anim_speed']);
-			$('body').animate({ 'margin-top': '0px' }, ahab['ahab_anim_speed']);
-			$('body').animate({ 'background-position-y': '0px' }, ahab['ahab_anim_speed']);
+			$('#wpadminbar').animate({ 'top': '0px' }, ahab['anim_speed']);
+			$('body').animate({ 'margin-top': '0px' }, ahab['anim_speed']);
+			$('body').animate({ 'background-position-y': '0px' }, ahab['anim_speed']);
 			if ('twentyfourteen' == themeName) {
-				$('.admin-bar.masthead-fixed .site-header').animate({ 'top': '32px' }, ahab['ahab_anim_speed'])
+				$('.admin-bar.masthead-fixed .site-header').animate({ 'top': '32px' }, ahab['anim_speed'])
 			}
 		}
 
@@ -73,19 +73,19 @@ jQuery(document).ready(function ($) {
 			// do not hide if toggle cookie has t a certain value
 			if (getCookie('toggle') != "locked") {
 				if (windowSize > 782) {
-					$('#wpadminbar').animate({ 'top': '-32px' }, ahab['ahab_anim_speed']);
-					$('body').animate({ 'margin-top': '-32px' }, ahab['ahab_anim_speed']);
-					$('body').animate({ 'background-position-y': '-32px' }, ahab['ahab_anim_speed']);
+					$('#wpadminbar').animate({ 'top': '-32px' }, ahab['anim_speed']);
+					$('body').animate({ 'margin-top': '-32px' }, ahab['anim_speed']);
+					$('body').animate({ 'background-position-y': '-32px' }, ahab['anim_speed']);
 					if ('twentyfourteen' == themeName) {
-						$('.admin-bar.masthead-fixed .site-header').animate({ 'top': '0px' }, ahab['ahab_anim_speed'])
+						$('.admin-bar.masthead-fixed .site-header').animate({ 'top': '0px' }, ahab['anim_speed'])
 					}
 				} else {
 					if (1 == ahabMobile) {
-						$('#wpadminbar').animate({ 'top': '-46px' }, ahab['ahab_anim_speed']);
-						$('body').animate({ 'margin-top': '-46px' }, ahab['ahab_anim_speed']);
-						$('body').animate({ 'background-position-y': '-46px' }, ahab['ahab_anim_speed']);
+						$('#wpadminbar').animate({ 'top': '-46px' }, ahab['anim_speed']);
+						$('body').animate({ 'margin-top': '-46px' }, ahab['anim_speed']);
+						$('body').animate({ 'background-position-y': '-46px' }, ahab['anim_speed']);
 						if ('twentyfourteen' == themeName) {
-							$('.admin-bar.masthead-fixed .site-header').animate({ 'top': '-46px' }, ahab['ahab_anim_speed'])
+							$('.admin-bar.masthead-fixed .site-header').animate({ 'top': '-46px' }, ahab['anim_speed'])
 						}
 					}
 				}
@@ -94,7 +94,7 @@ jQuery(document).ready(function ($) {
 
 		// Arrow CSS when admin bar visible
 		function arrowCSSAdminBarIn() {
-			var ahabArrowPos = ahab['ahab_arrow_pos'];
+			var ahabArrowPos = ahab['arrow_pos'];
 			if (windowSize > 782) {
 				$('#arrow').css('top', '30px');
 			}
@@ -109,7 +109,7 @@ jQuery(document).ready(function ($) {
 
 		// Arrow CSS when admin bar invisible
 		function arrowCSSAdminBarOut() {
-			var ahabArrowPos = ahab['ahab_arrow_pos'];
+			var ahabArrowPos = ahab['arrow_pos'];
 
 			$('#arrow').css('top', '0px');
 			$('#arrow').css('z-index', '99999');
@@ -152,9 +152,9 @@ jQuery(document).ready(function ($) {
 
 			var themeName = ahab['theme_name'];
 			var windowSize = $(window).width();
-			var ahabMobile = parseInt(ahab['ahab_mobile'], 10);
-			var ahabArrow = parseInt(ahab['ahab_arrow'], 10);
-			var ahabArrowPos = ahab['ahab_arrow_pos'];
+			var ahabMobile = parseInt(ahab['mobile'], 10);
+			var ahabArrow = parseInt(ahab['arrow'], 10);
+			var ahabArrowPos = ahab['arrow_pos'];
 
 			if (windowSize > 782) {
 				$('#wpadminbar').css('top', '-32px');
@@ -205,8 +205,8 @@ jQuery(document).ready(function ($) {
 			};
 			var configOut = {
 				over: doNothing, // function = onMouseOver callback (REQUIRED)
-				timeout: ahab['ahab_delay'], // number = milliseconds delay before onMouseOut
-				interval: ahab['ahab_interval'], // number = millseconds interval for mouse polling
+				timeout: ahab['delay'], // number = milliseconds delay before onMouseOut
+				interval: ahab['interval'], // number = millseconds interval for mouse polling
 				out: adminBarHide // function = onMouseOut callback (REQUIRED)
 			};
 
@@ -241,27 +241,7 @@ jQuery(document).ready(function ($) {
 		// do something when key pressed - using jquery.hotkeys.js library
 		// https://github.com/jeresig/jquery.hotkeys
 		// and it's included in WordPress :)
-
-		// build string for hotkey to add
-		var hotKey = new Array();
-
-		if (ahab['ahab_keyboard_alt'] == 'Alt') {
-			hotKey.push('alt')
-		}
-
-		if (ahab['ahab_keyboard_ctrl'] == 'Ctrl') {
-			hotKey.push('ctrl')
-		}
-
-		if (ahab['ahab_keyboard_shift'] == 'Shift') {
-			hotKey.push('shift')
-		}
-
-		if (ahab['ahab_keyboard_char']) {
-			hotKey.push(ahab['ahab_keyboard_char'])
-		}
-
-		$.hotkeys.add(hotKey.join('+'), function () {
+		$.hotkeys.add(ahab.shortcut.join('+'), function () {
 
 			if ($('#wpadminbar').css('top') == '0px') {
 				adminBarHide()
@@ -279,7 +259,7 @@ jQuery(document).ready(function ($) {
 				adminBarShow();
 
 				// check if arrow visibility is set
-				if (parseInt(ahab['ahab_arrow'], 10) == 2) {
+				if (parseInt(ahab['arrow'], 10) == 2) {
 					// remove the arrow
 					$('#arrow').remove();
 				}
@@ -291,7 +271,7 @@ jQuery(document).ready(function ($) {
 				adminBarHide();
 
 				// check if arrow visibility is set
-				if (parseInt(ahab['ahab_arrow'], 10) == 2) {
+				if (parseInt(ahab['arrow'], 10) == 2) {
 					// add arrow div
 					if (($('div#arrow').length === 0) && (2 == ahabArrow)) {
 						$('#wpadminbar').append(addArrow(arrowPosStyle(ahabArrowPos), arrowBorderRadiusStyle(ahabArrowPos)));
