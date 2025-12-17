@@ -1,182 +1,160 @@
-# Translation of Plugins - Auto Hide Admin Bar - Stable (latest release) in Chinese (Taiwan)
-# This file is distributed under the same license as the Plugins - Auto Hide Admin Bar - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-10-18 06:41:23+0000\n"
+"Project-Id-Version: Plugins - Auto Hide Admin Bar - Stable (latest release)\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.1\n"
+"POT-Creation-Date: 2025-12-17T17:57:25+00:00\n"
+"PO-Revision-Date: 2024-10-18 06:41:23+0000\n"
 "Language: zh_TW\n"
-"Project-Id-Version: Plugins - Auto Hide Admin Bar - Stable (latest release)\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Author URI of the plugin
+#: auto-hide-admin-bar.php
 msgid "https://marcelbootsman.nl"
 msgstr "https://marcelbootsman.nl"
 
-#: auto-hide-admin-bar.php:147
-msgid "Toggle lock for the Admin bar"
-msgstr "鎖定工具列的開關按鈕"
-
-#: ahab_options.php:395
-msgid "Show toggle button for locking the admin bar"
-msgstr "顯示用於鎖定工具列的開關按鈕"
-
-#: ahab_options.php:391
-msgid "Hide toggle button for locking the admin bar"
-msgstr "隱藏用於鎖定工具列的開關按鈕"
-
-#: ahab_options.php:224
-msgid "Use this to set visual options, show an arrow to trigger the showing/hiding of the Toolbar, or add a toggle to temporarily stop the Toolbar from hiding."
-msgstr "請在這裡進行設定視覺選項，顯示能顯示/隱藏工具列的開關箭號或新增能暫時讓工具列停止隱藏的開關按鈕。"
-
-#: ahab_options.php:108
-msgid "Show or hide the toggle button:"
-msgstr "顯示或隱藏開關按鈕:"
-
-#: ahab_options.php:425
+#: app/class-options.php:90
 msgid "Left"
 msgstr "左側"
 
-#: ahab_options.php:421
+#: app/class-options.php:91
 msgid "Right"
 msgstr "右側"
 
-#: ahab_options.php:365
+#: app/class-options.php:78
 msgid "Show an arrow"
 msgstr "顯示開關箭號"
 
-#: ahab_options.php:361
+#: app/class-options.php:77
 msgid "No arrow"
 msgstr "隱藏開關箭號"
 
-#: ahab_options.php:122
-msgid "Arrow position:"
-msgstr "箭號位置:"
-
-#: ahab_options.php:115
-msgid "Show or hide an arrow:"
-msgstr "顯示或隱藏開關箭號:"
-
-#: ahab_options.php:102
+#: app/class-settings.php:37
 msgid "Visual options"
 msgstr "視覺設定"
 
-#: ahab_options.php:531
-msgid " Character"
-msgstr "字元"
-
-#: ahab_options.php:270
+#: app/class-options.php:127
 msgid "Set a keyboard shortcut to hide/show the Toolbar"
 msgstr "設定隱藏/顯示工具列的鍵盤快速鍵"
 
-#: ahab_options.php:255
-msgid "This option allows you to disable the plugin for certain user roles"
-msgstr "這項設定能讓網站管理員針對特定使用者角色停用外掛功能。"
-
-#: ahab_options.php:161
-msgid "Set keyboard shortcut to:"
-msgstr "鍵盤快速鍵設定:"
-
-#: ahab_options.php:155
+#: app/class-options.php:126
 msgid "Keyboard shortcut"
 msgstr "鍵盤快速鍵"
 
-#: ahab_options.php:148
-msgid "Disable for user role:"
-msgstr "要停用外掛功能的使用者角色:"
-
-#: ahab_options.php:142
-msgid "Disable for user roles"
-msgstr "為指定使用者角色停用外掛功能"
-
 #. Author of the plugin
+#: auto-hide-admin-bar.php
 msgid "Marcel Bootsman"
 msgstr "Marcel Bootsman"
 
 #. Description of the plugin
+#: auto-hide-admin-bar.php
 msgid "Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site."
 msgstr "這個外掛能自動隱藏工具列，僅會在網站頂端產生操作暫留時才會顯示工具列。"
 
 #. Plugin Name of the plugin
+#: auto-hide-admin-bar.php
+#: app/class-admin.php:21
 msgid "Auto Hide Admin Bar"
 msgstr "Auto Hide Admin Bar"
 
-#: auto-hide-admin-bar.php:75
-msgid "Settings"
-msgstr "設定"
-
-#: ahab_options.php:457
+#: app/class-options.php:107
 msgid "Always show the Toolbar"
 msgstr "永遠顯示工具列"
 
-#: ahab_options.php:453
-msgid "Hide the Toolbar"
-msgstr "隱藏工具列"
-
-#: ahab_options.php:239
-msgid ""
-"This option allows you to enable or disable the plugin, when on small screens (< 782px). The\n"
-"    Default is \"Hide the Toolbar\". The behaviour of the Toolbar in larger screens will not be affected by this option."
-msgstr "這項設定能讓網站管理員決定於較小螢幕裝置 (小於 782px) 顯示或隱藏工具列，預設值為 [隱藏工具列]。在較大螢幕裝置上的行為不受這項設定影響。"
-
-#: ahab_options.php:209
-msgid "The number of milliseconds Auto Hide Admin Bar waits between reading/comparing mouse coordinates. When the user's mouse first enters the element its coordinates are recorded. Setting the polling interval higher will increase the delay before the Toolbar gets hidden. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 100"
-msgstr "這項設定是 Auto Hide Admin Bar 外掛在讀取/比較游標座標時的等待時間。使用者的游標進入畫面元素後，便會記錄其座標，設定輪詢間時間會在隱藏工具列前增加延遲時間。如果不另設定，則會使用預設值。這項設定的單位為毫秒，預設值為 100。"
-
-#: ahab_options.php:194
-msgid "This option allows you to set the delay of the hiding process. This makes sure your Toolbar doesn't go haywire when moving quickly in the top of your site. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 1500"
-msgstr "這項設定能讓網站管理員是設定隱藏工具列時的延遲時間，這項設定可以確保在網站頂端快速移動時，工具列不會發生問題。如果不另設定，則會使用預設值。這項設定的單位為毫秒，預設值為 1500。"
-
-#: ahab_options.php:179
-msgid "This option allows you to set the animation speed of the hiding/unhiding process. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 200"
-msgstr "這項設定能讓網站管理員是設定隱藏/顯示工具列時的動畫速度。如果不另設定，則會使用預設值。這項設定的單位為毫秒，預設值為 200。"
-
-#: ahab_options.php:135
-msgid "Show or hide on small screens:"
-msgstr "於較小螢幕裝置顯示或隱藏:"
-
-#: ahab_options.php:129
-msgid "Always show if on mobile (smaller than 782px)"
-msgstr "行動裝置是否永遠顯示工具列 (小於 782px)"
-
-#: ahab_options.php:95
-msgid "Interval:"
-msgstr "間隔時間:"
-
-#: ahab_options.php:89
-msgid "Set the interval for mouse polling"
-msgstr "設定游標輪詢間隔時間"
-
-#: ahab_options.php:82
-msgid "Delay:"
-msgstr "延遲時間:"
-
-#: ahab_options.php:76
-msgid "Set amount of delay for hiding the Toolbar"
-msgstr "設定隱藏工具列延遲時間"
-
-#: ahab_options.php:69
-msgid "Animation speed:"
-msgstr "動畫速度:"
-
-#: ahab_options.php:63
+#: app/class-settings.php:31
 msgid "Set speed"
 msgstr "設定速度"
 
-#: ahab_options.php:40
+#: app/class-admin.php:38
 msgid "Save Changes"
 msgstr "儲存設定"
 
-#: ahab_options.php:36
-msgid "Options for Auto Hide Admin Bar."
-msgstr "Auto Hide Admin Bar 的相關設定。"
-
-#: ahab_options.php:42
+#: app/class-admin.php:40
 msgid "Version: "
 msgstr "版本: "
 
-#: ahab_options.php:35
+#: app/class-admin.php:20
+#: app/class-admin.php:34
 msgid "Auto Hide Admin Bar Options"
 msgstr "Auto Hide Admin Bar 設定"
+
+#: app/class-options.php:34
+msgid "Animation speed"
+msgstr "動畫速度"
+
+#: app/class-options.php:35
+msgid "This option allows you to set the animation speed of the hiding/unhiding process."
+msgstr ""
+
+#: app/class-options.php:43
+msgid "Delay"
+msgstr "延遲時間"
+
+#: app/class-options.php:44
+msgid "This option allows you to set the delay of the hiding process. This makes sure your Toolbar doesn't go haywire when moving quickly in the top of your site."
+msgstr ""
+
+#: app/class-options.php:52
+msgid "Interval"
+msgstr "間隔時間"
+
+#: app/class-options.php:53
+msgid "The number of milliseconds Auto Hide Admin Bar waits between reading/comparing mouse coordinates. When the user's mouse first enters the element its coordinates are recorded. Setting the polling interval higher will increase the delay before the Toolbar gets hidden."
+msgstr ""
+
+#: app/class-options.php:61
+msgid "Show or hide the toggle button"
+msgstr "顯示或隱藏開關按鈕"
+
+#: app/class-options.php:74
+msgid "Show or hide an arrow"
+msgstr "顯示或隱藏開關箭號"
+
+#: app/class-options.php:87
+msgid "Arrow position"
+msgstr "箭號位置"
+
+#: app/class-options.php:100
+msgid "Hide on small screens"
+msgstr ""
+
+#: app/class-options.php:101
+msgid "The behaviour of the Toolbar in larger screens will not be affected by this option."
+msgstr ""
+
+#: app/class-options.php:106
+msgid "Hide the Toolbar on smaller screens (< 782px)"
+msgstr ""
+
+#: app/class-options.php:116
+msgid "Always show for roles"
+msgstr ""
+
+#: app/class-render-settings.php:99
+msgctxt "Displays after the input field"
+msgid "miliseconds"
+msgstr ""
+
+#: app/class-settings.php:43
+msgid "Other"
+msgstr ""
+
+#: app/class-frontend.php:27
+msgid "Toggle lock for the Toolbar"
+msgstr ""
+
+#: app/class-options.php:64
+msgid "Hide toggle button for locking the Toolbar"
+msgstr ""
+
+#: app/class-options.php:65
+msgid "Show toggle button for locking the Toolbar"
+msgstr ""
+
+#: app/class-options.php:117
+msgid "The Toolbar will always be visable for the selected roles."
+msgstr ""

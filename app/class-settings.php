@@ -37,9 +37,6 @@ class Settings {
 			\__( 'Visual options', 'auto-hide-admin-bar' ),
 			array( Render_Settings::class, 'section' ),
 			'ahab_plugin',
-			array(
-				'description' => \__( 'Use this to set visual options, show an arrow to trigger the showing/hiding of the Toolbar, or add a toggle to temporarily stop the Toolbar from hiding.', 'auto-hide-admin-bar' ),
-			)
 		);
 		\add_settings_section(
 			'ahab_plugin_section_other',

@@ -24,7 +24,7 @@ class Frontend {
 			return; // The toggle is not enabled.
 		}
 
-		$title_aria_label = \esc_attr__( 'Toggle lock for the Admin bar', 'auto-hide-admin-bar' );
+		$title_aria_label = \esc_attr__( 'Toggle lock for the Toolbar', 'auto-hide-admin-bar' );
 		$title_html       = '<div class="ahab"><label class="switch">' .
 			'<input id="toggle-checkbox" name="ahab_toggle" type="checkbox" aria-label="' . $title_aria_label . '">' .
 			'<span class="slider round"></span>' .

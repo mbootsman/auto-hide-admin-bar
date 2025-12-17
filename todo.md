@@ -1,2 +1,6 @@
+- Transform old option format to the new.
 - Translations
-- Readme.md
+- Readme.txt
+- Github updater
+- connect to SVN
+- Test marcel

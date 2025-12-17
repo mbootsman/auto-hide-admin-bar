@@ -32,7 +32,6 @@ class Admin {
 		?>
 		<div class="wrap">
 			<h2><?php \esc_html_e( 'Auto Hide Admin Bar Options', 'auto-hide-admin-bar' ); ?></h2>
-			<?php \esc_html_e( 'Options for Auto Hide Admin Bar.', 'auto-hide-admin-bar' ); ?>
 			<form action="options.php" method="post">
 				<?php \settings_fields( Options::OPTION_NAME ); ?>
 				<?php \do_settings_sections( 'ahab_plugin' ); ?>

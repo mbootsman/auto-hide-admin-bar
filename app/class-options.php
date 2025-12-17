@@ -31,8 +31,8 @@ class Options {
 				array( Sanitize::class, 'number' ),
 				array( Render_Settings::class, 'input_number' ),
 				'ahab_section_speed',
-				\__( 'Animation speed:', 'auto-hide-admin-bar' ),
-				\__( 'This option allows you to set the animation speed of the hiding/unhiding process. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 200', 'auto-hide-admin-bar' ),
+				\__( 'Animation speed', 'auto-hide-admin-bar' ),
+				\__( 'This option allows you to set the animation speed of the hiding/unhiding process.', 'auto-hide-admin-bar' ),
 			),
 			'delay'              => new Option(
 				'delay',
@@ -40,8 +40,8 @@ class Options {
 				array( Sanitize::class, 'number' ),
 				array( Render_Settings::class, 'input_number' ),
 				'ahab_section_speed',
-				\__( 'Delay:', 'auto-hide-admin-bar' ),
-				\__( 'This option allows you to set the delay of the hiding process. This makes sure your Toolbar doesn\'t go haywire when moving quickly in the top of your site. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 1500', 'auto-hide-admin-bar' ),
+				\__( 'Delay', 'auto-hide-admin-bar' ),
+				\__( 'This option allows you to set the delay of the hiding process. This makes sure your Toolbar doesn\'t go haywire when moving quickly in the top of your site.', 'auto-hide-admin-bar' ),
 			),
 			'interval'           => new Option(
 				'interval',
@@ -49,8 +49,8 @@ class Options {
 				array( Sanitize::class, 'number' ),
 				array( Render_Settings::class, 'input_number' ),
 				'ahab_section_speed',
-				\__( 'Interval:', 'auto-hide-admin-bar' ),
-				\__( 'The number of milliseconds Auto Hide Admin Bar waits between reading/comparing mouse coordinates. When the user\'s mouse first enters the element its coordinates are recorded. Setting the polling interval higher will increase the delay before the Toolbar gets hidden. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 100', 'auto-hide-admin-bar' ),
+				\__( 'Interval', 'auto-hide-admin-bar' ),
+				\__( 'The number of milliseconds Auto Hide Admin Bar waits between reading/comparing mouse coordinates. When the user\'s mouse first enters the element its coordinates are recorded. Setting the polling interval higher will increase the delay before the Toolbar gets hidden.', 'auto-hide-admin-bar' ),
 			),
 			'toggle'             => new Option(
 				'toggle',
@@ -58,11 +58,11 @@ class Options {
 				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'input_radio' ),
 				'ahab_section_visual',
-				\__( 'Show or hide the toggle button:', 'auto-hide-admin-bar' ),
-				\__( 'Enable or disable the display of a toggle button that allows users to temporarily prevent the admin bar from hiding.', 'auto-hide-admin-bar' ),
+				\__( 'Show or hide the toggle button', 'auto-hide-admin-bar' ),
+				null,
 				array(
-					1 => \__( 'Hide toggle button for locking the admin bar', 'auto-hide-admin-bar' ),
-					2 => \__( 'Show toggle button for locking the admin bar', 'auto-hide-admin-bar' ),
+					1 => \__( 'Hide toggle button for locking the Toolbar', 'auto-hide-admin-bar' ),
+					2 => \__( 'Show toggle button for locking the Toolbar', 'auto-hide-admin-bar' ),
 				)
 			),
 			'arrow'              => new Option(
@@ -71,7 +71,7 @@ class Options {
 				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'input_radio' ),
 				'ahab_section_visual',
-				\__( 'Show or hide an arrow:', 'auto-hide-admin-bar' ),
+				\__( 'Show or hide an arrow', 'auto-hide-admin-bar' ),
 				null,
 				array(
 					1 => \__( 'No arrow', 'auto-hide-admin-bar' ),
@@ -84,7 +84,7 @@ class Options {
 				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'input_radio' ),
 				'ahab_section_visual',
-				\__( 'Arrow position:', 'auto-hide-admin-bar' ),
+				\__( 'Arrow position', 'auto-hide-admin-bar' ),
 				null,
 				array(
 					'left'  => \__( 'Left', 'auto-hide-admin-bar' ),
@@ -96,15 +96,14 @@ class Options {
 				1,
 				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'input_radio' ),
-				'ahab_plugin_section_other',
-				\__( 'Show or hide on small screens:', 'auto-hide-admin-bar' ),
+				'ahab_section_visual',
+				\__( 'Hide on small screens', 'auto-hide-admin-bar' ),
 				\__(
-					'This option allows you to enable or disable the plugin, when on small screens (< 782px). The
-    Default is "Hide the Toolbar". The behaviour of the Toolbar in larger screens will not be affected by this option.', // This weird linebreak is needed for translations.
+					'The behaviour of the Toolbar in larger screens will not be affected by this option.', // This weird linebreak is needed for translations.
 					'auto-hide-admin-bar'
 				),
 				array(
-					1 => \__( 'Hide the Toolbar', 'auto-hide-admin-bar' ),
+					1 => \__( 'Hide the Toolbar on smaller screens (< 782px)', 'auto-hide-admin-bar' ),
 					2 => \__( 'Always show the Toolbar', 'auto-hide-admin-bar' ),
 				)
 			),
@@ -114,8 +113,8 @@ class Options {
 				array( Sanitize::class, 'checkbox' ),
 				array( Render_Settings::class, 'checkboxes' ),
 				'ahab_plugin_section_other',
-				\__( 'Disable for user role:', 'auto-hide-admin-bar' ),
-				null,
+				\__( 'Always show for roles', 'auto-hide-admin-bar' ),
+				\__( 'The Toolbar will always be visable for the selected roles.', 'auto-hide-admin-bar' ),
 				self::get_formatted_roles()
 			),
 			'shortcut_mod'       => new Option(
@@ -124,7 +123,7 @@ class Options {
 				array( Sanitize::class, 'checkbox' ),
 				array( Render_Settings::class, 'checkboxes_shortcut' ),
 				'ahab_plugin_section_other',
-				\__( 'Set keyboard shortcut to:', 'auto-hide-admin-bar' ),
+				\__( 'Keyboard shortcut', 'auto-hide-admin-bar' ),
 				\__( 'Set a keyboard shortcut to hide/show the Toolbar', 'auto-hide-admin-bar' ),
 				array(
 					'ctrl'  => 'Ctrl',
@@ -134,7 +133,7 @@ class Options {
 			),
 			'shortcut_character' => new Option(
 				'shortcut_character',
-				'', // @todo
+				'',
 				array( Sanitize::class, 'keyboard_character' ),
 			),
 		);

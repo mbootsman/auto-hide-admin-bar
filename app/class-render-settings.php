@@ -56,6 +56,8 @@ class Render_Settings {
 				'name'        => \esc_attr( Options::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
 				'value'       => \esc_attr( (string) $option->get_current_value() ),
 				'placeholder' => (string) $option->get_default_value(),
+				'maxlength'   => 1, // Ugly, but only used for 1 field.
+				'size'        => 1,
 			)
 		);
 		echo $input_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -94,7 +96,7 @@ class Render_Settings {
 				'placeholder' => (string) $option->get_default_value(),
 			)
 		);
-		echo $input_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $input_html . '<span> ' . \_x( 'miliseconds', 'Displays after the input field', 'auto-hide-admin-bar' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		if ( $option->get_render_description() ) {
 			echo '<p class="description">' . \esc_html( $option->get_render_description() ) . '</p>';
 		}

@@ -37,8 +37,6 @@ if ( ! \defined( 'ABSPATH' ) ) {
 require_once AHAB_DIR . 'app/class-plugin.php';
 \spl_autoload_register( array( Plugin::class, 'autoloader' ) );
 
-\register_activation_hook( __FILE__, array( Plugin::class, 'activate' ) );
-\register_deactivation_hook( __FILE__, array( Plugin::class, 'deactivate' ) );
 \register_uninstall_hook( __FILE__, array( Plugin::class, 'uninstall' ) );
 
 

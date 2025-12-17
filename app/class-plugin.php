@@ -78,27 +78,9 @@ class Plugin {
 	}
 
 	/**
-	 * Run on plugin activation.
-	 *
-	 * @param bool $network_wide Whether to enable the plugin for all sites in the network or just the current site.
-	 */
-	public static function activate( bool $network_wide = false ): void {
-		// update_option.
-	}
-
-	/**
-	 * Run on plugin deactivation. Only disable & remove temp data.
-	 *
-	 * @param bool $network_deactivating Is this deactivation network wide.
-	 */
-	public static function deactivate( bool $network_deactivating = false ): void {
-		// delete_option.
-	}
-
-	/**
 	 * Run when the plugin is uninstalled. Remove all traces of this plugin.
 	 */
 	public static function uninstall(): void {
-		// @todo delete_option.
+		\delete_option( Options::OPTION_NAME );
 	}
 }
