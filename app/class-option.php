@@ -147,7 +147,7 @@ class Option {
 	 * @return array|int|string|bool|null
 	 */
 	public function get_current_value() {
-		$options = \get_option( Settings::OPTION_NAME );
+		$options = \get_option( Options::OPTION_NAME );
 
 		if ( ! empty( $options[ $this->slug ] ) ) {
 			return $options[ $this->slug ];

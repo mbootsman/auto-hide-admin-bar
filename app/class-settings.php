@@ -11,23 +11,14 @@ namespace AHAB\App;
  */
 class Settings {
 
-	public const OPTION_NAME       = 'ahab_plugin_options';
-	public const DEFAULT_SPEED     = 200;
-	public const DEFAULT_DELAY     = 1500;
-	public const DEFAULT_INTERVAL  = 100;
-	public const DEFAULT_MOBILE    = 1;
-	public const DEFAULT_TOGGLE    = 1;
-	public const DEFAULT_ARROW     = 1;
-	public const DEFAULT_ARROW_POS = 'left';
-
 	/**
 	 * Register the main setting.
 	 */
 	public static function register_settings(): void {
 		// Register the setting.
 		\register_setting(
-			self::OPTION_NAME,
-			self::OPTION_NAME,
+			Options::OPTION_NAME,
+			Options::OPTION_NAME,
 			array(
 				'sanitize_callback' => array( self::class, 'save' ),
 				'show_in_rest'      => false,
@@ -38,13 +29,13 @@ class Settings {
 		\add_settings_section(
 			'ahab_section_speed',
 			\__( 'Set speed', 'auto-hide-admin-bar' ),
-			array( Render_Settings::class, 'render_section' ),
+			array( Render_Settings::class, 'section' ),
 			'ahab_plugin'
 		);
 		\add_settings_section(
 			'ahab_section_visual',
 			\__( 'Visual options', 'auto-hide-admin-bar' ),
-			array( Render_Settings::class, 'render_section' ),
+			array( Render_Settings::class, 'section' ),
 			'ahab_plugin',
 			array(
 				'description' => \__( 'Use this to set visual options, show an arrow to trigger the showing/hiding of the Toolbar, or add a toggle to temporarily stop the Toolbar from hiding.', 'auto-hide-admin-bar' ),
@@ -53,7 +44,7 @@ class Settings {
 		\add_settings_section(
 			'ahab_plugin_section_other',
 			\__( 'Other', 'auto-hide-admin-bar' ),
-			array( Render_Settings::class, 'render_section' ),
+			array( Render_Settings::class, 'section' ),
 			'ahab_plugin'
 		);
 

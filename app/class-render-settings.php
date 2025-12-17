@@ -3,7 +3,7 @@ declare( strict_types=1 );
 namespace AHAB\App;
 
 /**
- * Class Class_Render_Settings
+ * Class Render_Settings
  *
  * Render settings.
  *
@@ -24,7 +24,7 @@ class Render_Settings {
 	 *     @type string $description    Text description for the section. Default empty.
 	 * }
 	 */
-	public static function render_section( array $args ): void {
+	public static function section( array $args ): void {
 		if ( ! empty( $args['description'] ) ) {
 			echo '<p>' . \esc_html( $args['description'] ) . '</p>';
 		}
@@ -38,7 +38,7 @@ class Render_Settings {
 	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
-	public static function render_input_text( array $args ): void {
+	public static function input_text( array $args ): void {
 		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
 			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
@@ -49,11 +49,11 @@ class Render_Settings {
 		 */
 		$option = $args['option'];
 
-		$input_html = self::render_input_tag(
+		$input_html = self::generate_input_tag(
 			array(
 				'type'        => 'text',
 				'id'          => \esc_attr( 'ahab_setting_' . $option->get_slug() ),
-				'name'        => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
+				'name'        => \esc_attr( Options::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
 				'value'       => \esc_attr( (string) $option->get_current_value() ),
 				'placeholder' => (string) $option->get_default_value(),
 			)
@@ -72,7 +72,7 @@ class Render_Settings {
 	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
-	public static function render_input_number( array $args ): void {
+	public static function input_number( array $args ): void {
 		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
 			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
@@ -83,13 +83,13 @@ class Render_Settings {
 		 */
 		$option = $args['option'];
 
-		$input_html = self::render_input_tag(
+		$input_html = self::generate_input_tag(
 			array(
 				'type'        => 'number',
 				'min'         => '0', // No negative values.
 				'max'         => '60000', // 60 seconds max.
 				'id'          => \esc_attr( 'ahab_setting_' . $option->get_slug() ),
-				'name'        => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
+				'name'        => \esc_attr( Options::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
 				'value'       => \esc_attr( (string) $option->get_current_value() ),
 				'placeholder' => (string) $option->get_default_value(),
 			)
@@ -108,7 +108,7 @@ class Render_Settings {
 	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
-	public static function render_input_radio( array $args ): void {
+	public static function input_radio( array $args ): void {
 		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
 			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
@@ -121,11 +121,11 @@ class Render_Settings {
 
 		echo '<fieldset>';
 		foreach ( $option->get_allowed_values() as $value => $label ) {
-			$input_html = self::render_input_tag(
+			$input_html = self::generate_input_tag(
 				array(
 					'type'  => 'radio',
 					'id'    => \esc_attr( 'ahab_setting_' . $option->get_slug() . '_' . $value ),
-					'name'  => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
+					'name'  => \esc_attr( Options::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . ']',
 					'value' => \esc_attr( (string) $value ),
 					0       => \checked( $value, $option->get_current_value(), false ),
 				),
@@ -147,7 +147,7 @@ class Render_Settings {
 	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
-	public static function render_checkboxes( array $args ): void {
+	public static function checkboxes( array $args ): void {
 		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
 			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
@@ -160,11 +160,11 @@ class Render_Settings {
 		echo '<fieldset>';
 		foreach ( $option->get_allowed_values() as $value => $label ) {
 			$checked    = \in_array( $value, (array) $option->get_current_value(), true );
-			$input_html = self::render_input_tag(
+			$input_html = self::generate_input_tag(
 				array(
 					'type'  => 'checkbox',
 					'id'    => \esc_attr( 'ahab_setting_' . $option->get_slug() . '_' . $value ),
-					'name'  => \esc_attr( Settings::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . '][]',
+					'name'  => \esc_attr( Options::OPTION_NAME ) . '[' . \esc_attr( $option->get_slug() ) . '][]',
 					'value' => \esc_attr( (string) $value ),
 					0       => \checked( $checked, true, false ),
 				),
@@ -188,7 +188,7 @@ class Render_Settings {
 	 *     @type Option    $option       The option being rendered.
 	 * }
 	 */
-	public static function render_checkboxes_shortcut( array $args ): void {
+	public static function checkboxes_shortcut( array $args ): void {
 		if ( ! isset( $args['option'] ) || ! ( $args['option'] instanceof Option ) ) {
 			\wp_die( 'Invalid option provided to ' . __METHOD__ );
 		}
@@ -197,10 +197,10 @@ class Render_Settings {
 			'ahab_render_checkboxes_fieldset',
 			function () {
 				$character_option = Options::get_option( 'shortcut_character' );
-				self::render_input_text( array( 'option' => $character_option ) );
+				self::input_text( array( 'option' => $character_option ) );
 			}
 		);
-		self::render_checkboxes( $args );
+		self::checkboxes( $args );
 	}
 
 	/**
@@ -209,7 +209,7 @@ class Render_Settings {
 	 * @param array   $attributes Attributes for the input field.
 	 * @param ?string $label_text Optional label text.
 	 */
-	protected static function render_input_tag( array $attributes = array(), string $label_text = null ): string {
+	protected static function generate_input_tag( array $attributes = array(), string $label_text = null ): string {
 		$input_html = '<input ';
 		foreach ( $attributes as $attribute => $value ) {
 			if ( \is_string( $attribute ) ) {

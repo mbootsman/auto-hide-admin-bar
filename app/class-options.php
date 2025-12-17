@@ -11,6 +11,8 @@ namespace AHAB\App;
  */
 class Options {
 
+	public const OPTION_NAME = 'ahab_plugin_options';
+
 	/**
 	 * Hold the options.
 	 *
@@ -25,36 +27,36 @@ class Options {
 		self::$options = array(
 			'speed'              => new Option(
 				'speed',
-				Settings::DEFAULT_SPEED,
+				200,
 				array( Sanitize::class, 'number' ),
-				array( Render_Settings::class, 'render_input_number' ),
+				array( Render_Settings::class, 'input_number' ),
 				'ahab_section_speed',
 				\__( 'Animation speed:', 'auto-hide-admin-bar' ),
 				\__( 'This option allows you to set the animation speed of the hiding/unhiding process. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 200', 'auto-hide-admin-bar' ),
 			),
 			'delay'              => new Option(
 				'delay',
-				Settings::DEFAULT_DELAY,
+				1500,
 				array( Sanitize::class, 'number' ),
-				array( Render_Settings::class, 'render_input_number' ),
+				array( Render_Settings::class, 'input_number' ),
 				'ahab_section_speed',
 				\__( 'Delay:', 'auto-hide-admin-bar' ),
 				\__( 'This option allows you to set the delay of the hiding process. This makes sure your Toolbar doesn\'t go haywire when moving quickly in the top of your site. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 1500', 'auto-hide-admin-bar' ),
 			),
 			'interval'           => new Option(
 				'interval',
-				Settings::DEFAULT_INTERVAL,
+				100,
 				array( Sanitize::class, 'number' ),
-				array( Render_Settings::class, 'render_input_number' ),
+				array( Render_Settings::class, 'input_number' ),
 				'ahab_section_speed',
 				\__( 'Interval:', 'auto-hide-admin-bar' ),
 				\__( 'The number of milliseconds Auto Hide Admin Bar waits between reading/comparing mouse coordinates. When the user\'s mouse first enters the element its coordinates are recorded. Setting the polling interval higher will increase the delay before the Toolbar gets hidden. If a non-number is provided, the default value will be used. Provide a number in milliseconds. Default is: 100', 'auto-hide-admin-bar' ),
 			),
 			'toggle'             => new Option(
 				'toggle',
-				Settings::DEFAULT_TOGGLE,
+				1,
 				array( Sanitize::class, 'radio' ),
-				array( Render_Settings::class, 'render_input_radio' ),
+				array( Render_Settings::class, 'input_radio' ),
 				'ahab_section_visual',
 				\__( 'Show or hide the toggle button:', 'auto-hide-admin-bar' ),
 				\__( 'Enable or disable the display of a toggle button that allows users to temporarily prevent the admin bar from hiding.', 'auto-hide-admin-bar' ),
@@ -65,9 +67,9 @@ class Options {
 			),
 			'arrow'              => new Option(
 				'arrow',
-				Settings::DEFAULT_ARROW,
+				1,
 				array( Sanitize::class, 'radio' ),
-				array( Render_Settings::class, 'render_input_radio' ),
+				array( Render_Settings::class, 'input_radio' ),
 				'ahab_section_visual',
 				\__( 'Show or hide an arrow:', 'auto-hide-admin-bar' ),
 				null,
@@ -78,9 +80,9 @@ class Options {
 			),
 			'arrow_position'     => new Option(
 				'arrow_position',
-				Settings::DEFAULT_ARROW_POS,
+				'left',
 				array( Sanitize::class, 'radio' ),
-				array( Render_Settings::class, 'render_input_radio' ),
+				array( Render_Settings::class, 'input_radio' ),
 				'ahab_section_visual',
 				\__( 'Arrow position:', 'auto-hide-admin-bar' ),
 				null,
@@ -91,9 +93,9 @@ class Options {
 			),
 			'mobile'             => new Option(
 				'mobile',
-				Settings::DEFAULT_MOBILE,
+				1,
 				array( Sanitize::class, 'radio' ),
-				array( Render_Settings::class, 'render_input_radio' ),
+				array( Render_Settings::class, 'input_radio' ),
 				'ahab_plugin_section_other',
 				\__( 'Show or hide on small screens:', 'auto-hide-admin-bar' ),
 				\__(
@@ -110,7 +112,7 @@ class Options {
 				'roles',
 				array(),
 				array( Sanitize::class, 'checkbox' ),
-				array( Render_Settings::class, 'render_checkboxes' ),
+				array( Render_Settings::class, 'checkboxes' ),
 				'ahab_plugin_section_other',
 				\__( 'Disable for user role:', 'auto-hide-admin-bar' ),
 				null,
@@ -120,7 +122,7 @@ class Options {
 				'shortcut_mod',
 				array(),
 				array( Sanitize::class, 'checkbox' ),
-				array( Render_Settings::class, 'render_checkboxes_shortcut' ),
+				array( Render_Settings::class, 'checkboxes_shortcut' ),
 				'ahab_plugin_section_other',
 				\__( 'Set keyboard shortcut to:', 'auto-hide-admin-bar' ),
 				\__( 'Set a keyboard shortcut to hide/show the Toolbar', 'auto-hide-admin-bar' ),
