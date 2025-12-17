@@ -95,13 +95,7 @@ class Settings {
 				$valid_values[ $option->get_slug() ] = $option->get_default_value();
 				continue;
 			}
-
-			$sanitize_callback = $option->get_sanitize_callback();
-			if ( \is_callable( $sanitize_callback ) ) {
-				$valid_values[ $option->get_slug() ] = \call_user_func( $sanitize_callback, $values[ $option->get_slug() ] );
-			} else {
-				$valid_values[ $option->get_slug() ] = $values[ $option->get_slug() ];
-			}
+			$valid_values[ $option->get_slug() ] = $option->sanitize( $values[ $option->get_slug() ] );
 		}
 		/**
 		 * Allow filtering of the values.

@@ -129,6 +129,19 @@ class Option {
 	}
 
 	/**
+	 * Sanitize the given value
+	 *
+	 * @param mixed $value The value to sanitize.
+	 * @return mixed
+	 */
+	public function sanitize( $value ) {
+		if ( \is_callable( $this->sanitize_callback ) ) {
+			return \call_user_func( $this->sanitize_callback, $value, $this );
+		}
+		return $value;
+	}
+
+	/**
 	 * Get the current value of the option
 	 *
 	 * @return array|int|string|bool|null

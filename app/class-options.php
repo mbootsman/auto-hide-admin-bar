@@ -26,7 +26,7 @@ class Options {
 			'speed'              => new Option(
 				'speed',
 				Settings::DEFAULT_SPEED,
-				null, // @todo
+				array( Sanitize::class, 'number' ),
 				array( Render_Settings::class, 'render_input_number' ),
 				'ahab_section_speed',
 				\__( 'Animation speed:', 'auto-hide-admin-bar' ),
@@ -35,7 +35,7 @@ class Options {
 			'delay'              => new Option(
 				'delay',
 				Settings::DEFAULT_DELAY,
-				null, // @todo
+				array( Sanitize::class, 'number' ),
 				array( Render_Settings::class, 'render_input_number' ),
 				'ahab_section_speed',
 				\__( 'Delay:', 'auto-hide-admin-bar' ),
@@ -44,7 +44,7 @@ class Options {
 			'interval'           => new Option(
 				'interval',
 				Settings::DEFAULT_INTERVAL,
-				null, // @todo
+				array( Sanitize::class, 'number' ),
 				array( Render_Settings::class, 'render_input_number' ),
 				'ahab_section_speed',
 				\__( 'Interval:', 'auto-hide-admin-bar' ),
@@ -53,7 +53,7 @@ class Options {
 			'toggle'             => new Option(
 				'toggle',
 				Settings::DEFAULT_TOGGLE,
-				null, // @todo
+				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'render_input_radio' ),
 				'ahab_section_visual',
 				\__( 'Show or hide the toggle button:', 'auto-hide-admin-bar' ),
@@ -66,7 +66,7 @@ class Options {
 			'arrow'              => new Option(
 				'arrow',
 				Settings::DEFAULT_ARROW,
-				null, // @todo
+				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'render_input_radio' ),
 				'ahab_section_visual',
 				\__( 'Show or hide an arrow:', 'auto-hide-admin-bar' ),
@@ -79,7 +79,7 @@ class Options {
 			'arrow_position'     => new Option(
 				'arrow_position',
 				Settings::DEFAULT_ARROW_POS,
-				null, // @todo
+				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'render_input_radio' ),
 				'ahab_section_visual',
 				\__( 'Arrow position:', 'auto-hide-admin-bar' ),
@@ -92,7 +92,7 @@ class Options {
 			'mobile'             => new Option(
 				'mobile',
 				Settings::DEFAULT_MOBILE,
-				null, // @todo
+				array( Sanitize::class, 'radio' ),
 				array( Render_Settings::class, 'render_input_radio' ),
 				'ahab_plugin_section_other',
 				\__( 'Show or hide on small screens:', 'auto-hide-admin-bar' ),
@@ -109,7 +109,7 @@ class Options {
 			'roles'              => new Option(
 				'roles',
 				array(),
-				null, // @todo
+				array( Sanitize::class, 'checkbox' ),
 				array( Render_Settings::class, 'render_checkboxes' ),
 				'ahab_plugin_section_other',
 				\__( 'Disable for user role:', 'auto-hide-admin-bar' ),
@@ -119,7 +119,7 @@ class Options {
 			'shortcut_mod'       => new Option(
 				'shortcut_mod',
 				array(),
-				null, // @todo
+				array( Sanitize::class, 'checkbox' ),
 				array( Render_Settings::class, 'render_checkboxes_shortcut' ),
 				'ahab_plugin_section_other',
 				\__( 'Set keyboard shortcut to:', 'auto-hide-admin-bar' ),
@@ -132,8 +132,8 @@ class Options {
 			),
 			'shortcut_character' => new Option(
 				'shortcut_character',
-				'',
-				null, // @todo
+				'', // @todo
+				array( Sanitize::class, 'keyboard_character' ),
 			),
 		);
 	}
@@ -173,5 +173,16 @@ class Options {
 			\wp_die( 'Option not found: ' . \esc_html( $slug ) );
 		}
 		return $options[ $slug ];
+	}
+
+	/**
+	 * Get the value of a single option.
+	 *
+	 * @param string $slug The option slug.
+	 * @return mixed
+	 */
+	public static function get_option_value( string $slug ) {
+		$option = self::get_option( $slug );
+		return $option->get_current_value();
 	}
 }
