@@ -174,7 +174,6 @@ class Render_Settings {
 		echo '</fieldset>';
 	}
 
-
 	/**
 	 * Render the checkboxes.
 	 *

@@ -44,6 +44,9 @@ require_once AHAB_PLUGIN_BASE_DIR . 'app/class-plugin.php';
 \add_action( 'admin_menu', array( AHAB\App\Admin::class, 'register_options_page' ) );
 \add_action( 'admin_menu', array( AHAB\App\Options::class, 'register_settings' ) );
 
+\add_action( 'admin_bar_menu', array( AHAB\App\Frontend::class, 'admin_bar_item' ), 0 );
+
+
 
 /**
  ***********************************************
@@ -121,33 +124,6 @@ function is_ahab_disabled(): bool {
 
 	return $ahab_disabled;
 }
-
-/* Add Toggle to admin bar */
-\add_action( 'admin_bar_menu', 'ahab_admin_bar_item', 0 );
-function ahab_admin_bar_item( \WP_Admin_Bar $admin_bar ) {
-	$options = \get_option( 'ahab_plugin_options' );
-
-	if ( ! \is_admin() ) {
-		if ( ( ! empty( $options['toggle'] ) ) && ( 2 == $options['toggle'] ) ) {
-			$admin_bar->add_menu(
-				array(
-					'id'     => 'ahab-toggle',
-					'parent' => null,
-					'group'  => null,
-					'title'  => '<div class="ahab"><label class="switch">
-		<input id="toggle-checkbox" type="checkbox">
-		<span class="slider round"></span>
-	  </label></div>',
-					'href'   => '',
-					'meta'   => array(
-						'title' => \__( 'Toggle lock for the Admin bar', 'auto-hide-admin-bar' ), // This title will show on hover
-					),
-				)
-			);
-		}
-	}
-}
-
 
 /**
  * The main function. Build JS code and output it.
