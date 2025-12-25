@@ -1,6 +1,0 @@
-- Transform old option format to the new.
-- Translations
-- Readme.txt
-- Github updater
-- connect to SVN
-- Test marcel
