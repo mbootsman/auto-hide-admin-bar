@@ -22,7 +22,6 @@ class Settings {
 			array(
 				'sanitize_callback' => array( self::class, 'save' ),
 				'show_in_rest'      => false,
-				'default'           => array(), // @TODO fill with the defaults.
 			)
 		);
 

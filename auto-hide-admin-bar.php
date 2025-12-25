@@ -46,7 +46,7 @@ require_once AHAB_DIR . 'app/class-plugin.php';
 
 // Handle the options page.
 \add_action( 'admin_menu', array( Admin::class, 'register_options_page' ) );
-\add_action( 'admin_menu', array( Settings::class, 'register_settings' ) );
+\add_action( 'admin_init', array( Settings::class, 'register_settings' ) );
 
 \add_action( 'admin_bar_menu', array( Frontend::class, 'admin_bar_item' ), 0 );
 \add_action( 'wp_enqueue_scripts', array( Frontend::class, 'enqueue_scripts' ), 0 );

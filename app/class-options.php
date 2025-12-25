@@ -159,6 +159,7 @@ class Options {
 	public static function get_options(): array {
 		if ( empty( self::$options ) ) {
 			self::fill_options();
+			self::patch_option();
 		}
 		return self::$options;
 	}
@@ -185,5 +186,53 @@ class Options {
 	public static function get_option_value( string $slug ) {
 		$option = self::get_option( $slug );
 		return $option->get_current_value();
+	}
+
+	/**
+	 * Check if the option is formatted correctly.
+	 */
+	protected static function patch_option(): void {
+		$current_option = \get_option( self::OPTION_NAME );
+		// Keeping track of the plugin version was not done in the past.
+		if ( empty( $current_option['version'] ) ) {
+			$options           = self::get_options();
+			$formattted_option = array(
+				'version'        => AHAB_VERSION,
+				'speed'          => (int) ( $current_option['speed'] ?? $options['speed']->get_current_value() ),
+				'delay'          => (int) ( $current_option['delay'] ?? $options['delay']->get_current_value() ),
+				'interval'       => (int) ( $current_option['interval'] ?? $options['interval']->get_current_value() ),
+				'toggle'         => (int) ( $current_option['toggle'] ?? $options['toggle']->get_current_value() ),
+				'arrow'          => (int) ( $current_option['arrow'] ?? $options['arrow']->get_current_value() ),
+				'arrow_position' => $current_option['arrow_pos'] ?? $options['arrow_position']->get_current_value(),
+				'mobile'         => (int) ( $current_option['mobile'] ?? $options['mobile']->get_current_value() ),
+			);
+
+			// Map shortcut options.
+			if ( ! empty( $current_option['keyboard_shortcut_char'] ) ) {
+				$formattted_option['shortcut_character'] = $current_option['keyboard_shortcut_char'];
+			}
+			if ( ! empty( $current_option['keyboard_shortcut_Ctrl'] ) ) {
+				$formattted_option['shortcut_mod'][] = 'ctrl';
+			}
+			if ( ! empty( $current_option['keyboard_shortcut_Alt'] ) ) {
+				$formattted_option['shortcut_mod'][] = 'alt';
+			}
+			if ( ! empty( $current_option['keyboard_shortcut_Shift'] ) ) {
+				$formattted_option['shortcut_mod'][] = 'shift';
+			}
+
+			// Map roles.
+			$roles = \array_keys( self::get_formatted_roles() );
+			foreach ( $roles as $role ) {
+				if ( ! empty( $current_option[ 'disabled_user_roles_' . $role ] ) ) {
+					$formattted_option['roles'][] = $role;
+				}
+			}
+
+			\update_option( self::OPTION_NAME, $formattted_option, false );
+
+			$test = \get_option( self::OPTION_NAME ); // Refresh the options after patching.
+			$test = 1;
+		}
 	}
 }
