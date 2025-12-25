@@ -2,7 +2,8 @@
 Contributors: mbootsman,janwoostendorp
 Tags: admin bar, autohide, hide, toolbar
 Requires at least: 3.1
-Tested up to: 6.6.2
+Tested up to: 6.9
+Requires PHP: 7.4
 Stable tag: 1.6.6
 
 This plugin adds an auto-hide feature to the WordPress Admin Bar or Toolbar.
@@ -15,17 +16,33 @@ If you have any comments or questions, please use the [support forum](http://wor
 
 == Installation ==
 
-1. Upload `auto-hide-admin-bar` directory to the `/wp-content/plugins/` directory or
-   upload the auto-hide-admin-bar.zip as a new plugin.
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. We're all done, now you have an auto hiding Toolbar.
+Options to tweak the behavior can be found under _Settings_ > _Auto Hide Admin Bar_.
 
 == Frequently Asked Questions ==
 
 = Can this plugin be translated in my own language? =
-Yes, please use the .pot file, and submit your own language file through a PR.
+Yes, see the [WordPress translations](https://translate.wordpress.org/projects/wp-plugins/auto-hide-admin-bar/).
+
+= This plugin was recently adopted, what's the plan? =
+No changes are planned for the end user. The plugin will remain backwards compatible.
+A big code refactor was done. In Q2 2026 the minimum php version will be updated to 8.2.
+There are no plans to extend the functionality. Feel free to ask in the [support forum](http://wordpress.org/support/plugin/auto-hide-admin-bar)
+
+== Screenshots ==
+
+1. The settings page.
 
 == Changelog ==
+
+= 1.7.0 - 24-dec-2025 =
+* Big code refactor.
+* Follow WP Coding Standards.
+* PHP 7.4 compatibility is in tackt.
+* No functional changes, nothing changes for users.
+* On the option page, labels have changed.
+* Validate the settings when saving.
+* Remove option on uninstall.
+
 = 1.6.6 =
 * Added primary branch tag in plugin header
 * Added override to prevent w.org updates

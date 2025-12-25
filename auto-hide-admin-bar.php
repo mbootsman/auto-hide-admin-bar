@@ -12,7 +12,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 3.1
  * Requires PHP:      7.4
- * Version:           1.6.6
+ * Version:           1.7.0
  *
  * @package           AHAB
  */
@@ -22,7 +22,7 @@ use AHAB\App\Admin;
 use AHAB\App\Settings;
 use AHAB\App\Frontend;
 
-\define( 'AHAB_VERSION', '1.6.6' );
+\define( 'AHAB_VERSION', '1.7.0' );
 \define( 'AHAB_DIR', \plugin_dir_path( __FILE__ ) ); // Full path with trailing slash.
 \define( 'AHAB_URL', \plugin_dir_url( __FILE__ ) ); // With trailing slash.
 \define( 'AHAB_SLUG', \basename( __DIR__ ) ); // auto-hide-admin-bar.
